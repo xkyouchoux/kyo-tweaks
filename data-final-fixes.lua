@@ -1,6 +1,5 @@
 local data_util = require("data_util")
 local settings_util = require("settings_util")
-local resource_autoplace = require('resource-autoplace');
 
 if settings_util.produce_double_heatshielding then
     data_util.replace_or_add_result("se-heat-shielding", "se-heat-shielding", "se-heat-shielding", 2)
@@ -148,16 +147,6 @@ if settings_util.rebalance_steel then
 end
 
 if settings_util.rebalance_tin then
-
-    data.raw.resource["tin-ore"].autoplace = resource_autoplace.resource_autoplace_settings{
-        name = "tin-ore",
-        order = "b",
-        base_density = 2,
-        base_spots_per_km2 = 1,
-        has_starting_area_placement = true,
-        regular_rq_factor_multiplier = 1.0,
-        starting_rq_factor_multiplier = 1.4,
-      }
     data_util.recipe_set_energy_required("tin-plate", 36)
     data_util.replace_or_add_ingredient("tin-plate", "tin-ore", "tin-ore", 20)
     data_util.replace_or_add_result("tin-plate", "tin-plate", "tin-plate", 15)
