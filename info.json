@@ -1,0 +1,28 @@
+{
+  "name": "kyo-tweaks",
+  "version": "0.0.1",
+  "factorio_version": "1.1",
+  "title": "Kyo Tweaks",
+  "author": "xkyouchoux",
+  "contact": "",
+  "homepage": "",
+  "description": "My tweaks",
+  "dependencies": [
+    "space-exploration", 
+    "Krastorio2",
+    "? bzaluminum",
+    "? bzcarbon",
+    "? bzchlorine",
+    "? bz-dsr-bridge",
+    "? bzfoundry",
+    "? bzgas",
+    "? bzgold",
+    "? bzlead",
+    "? bzsilicon",
+    "? bztin",
+    "? bztitanium",
+    "? bztungsten",
+    "? bzzirconium",
+    "? bzvery"
+  ]
+}
