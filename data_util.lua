@@ -24,6 +24,21 @@ local tech_cards = {
     "se-kr-matter-science-pack-2"
 }
 
+data_util.create_landfill_recipe = function(item)
+    if not data.raw.recipe["landfill-"..item] and data.raw.item[item] then
+        new_recipe = table.deepcopy(data.raw.recipe["landfill-iron-ore"])
+        new_recipe.name = "landfill-"..item
+        new_recipe.order = "z-b-"..item
+        new_recipe.icons[2].icon = data.raw.item[item].icon
+        new_recipe.icons[2].icon_size = data.raw.item[item].icon_size
+        new_recipe.icons[2].scale = 0.33*64/data.raw.item[item].icon_size
+        data_util.replace_or_add_ingredient(new_recipe, "iron-ore", item, 50)
+        data.raw.recipe[new_recipe.name] = new_recipe
+        data_util.recipe_require_tech(new_recipe.name, "se-recycling-facility")
+        return new_recipe
+    end
+end
+
 data_util.update_matter_tech = function(name)
     if data.raw.technology[name] then
         data_util.tech_remove_ingredients(name, {"matter-tech-card"})

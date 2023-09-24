@@ -60,6 +60,9 @@ if settings_util.change_kiln_recipes_back_to_smelting_recipes then
     end
 end
 
+data_util.create_landfill_recipe("gold-ore")
+data_util.create_landfill_recipe("silver-ore")
+
 for _, value in pairs({
     "landfill",
     "landfill-2", 
@@ -80,7 +83,9 @@ for _, value in pairs({
     "landfill-zircon", 
     "landfill-flake-graphite", 
     "landfill-aluminum-ore", 
-    "landfill-tin-ore"
+    "landfill-tin-ore",
+    "landfill-gold-ore",
+    "landfill-silver-ore"
 }) do
     data_util.modify_landfill_recipe(value)
 end
@@ -135,11 +140,21 @@ if settings_util.rebalance_steel then
 end
 
 if settings_util.rebalance_tin then
-    data.raw.resource["tin-ore"].autoplace.base_spots_per_km2 = 0.5
+    data.raw.resource["tin-ore"].autoplace = resource_autoplace.resource_autoplace_settings{
+        name = "tin-ore",
+        order = "b-z",
+        base_density = 4,
+        base_spots_per_km2 = .5,
+        has_starting_area_placement = true,
+        regular_rq_factor_multiplier = 1.0,
+        starting_rq_factor_multiplier = 1.0,
+      }
     data_util.recipe_set_energy_required("tin-plate", 36)
     data_util.replace_or_add_ingredient("tin-plate", "tin-ore", "tin-ore", 20)
     data_util.replace_or_add_result("tin-plate", "tin-plate", "tin-plate", 15)
     data_util.replace_or_add_result("enriched-tin", "enriched-tin", "enriched-tin", 9)
+    data_util.replace_or_add_result("dirty-water-filtration-tin", "stone", "stone", nil, nil, 1, 1, .3)
+    data_util.replace_or_add_result("dirty-water-filtration-tin", "tin-ore", "tin-ore", nil, nil, 1, 1, .1)
 end
 
 if settings_util.rebalance_lead then
@@ -147,26 +162,34 @@ if settings_util.rebalance_lead then
     data_util.replace_or_add_ingredient("lead-plate", "lead-ore", "lead-ore", 20)
     data_util.replace_or_add_result("lead-plate", "lead-plate", "lead-plate", 15)
     data_util.replace_or_add_result("enriched-lead", "enriched-lead", "enriched-lead", 9)
+    data_util.replace_or_add_result("dirty-water-filtration-lead", "lead-ore", "lead-ore", nil, nil, 1, 1, .1)
 end
 
 if settings_util.rebalance_titanium then
     data_util.replace_or_add_result("titanium-plate", "titanium-plate", "titanium-plate", 5)
     data_util.replace_or_add_ingredient("enriched-titanium-plate", "enriched-titanium", "enriched-titanium", 5)
-    data_util.delete_recipe("molten-titanium")
-    data_util.delete_recipe("titanium-ingot")
-    data_util.delete_recipe("titanium-ingot-to-plate")
-    data.raw.recipe["titanium-plate"].order = "a-a"
-    data.raw.recipe["enriched-titanium-plate"].order = "a-d"
-    new_recipe = table.deepcopy(data.raw.recipe["rare-metals-vulcanite"])
-    new_recipe.name = "titanium-plate-vulcanite"
-    new_recipe.subgroup = "titanium"
-    new_recipe.order = "a-d"
-    new_recipe.icons = data_util.sub_icons(data.raw.item["titanium-plate"].icon, data.raw.item["se-vulcanite-block"].icon)
-    data_util.replace_or_add_ingredient(new_recipe, "enriched-rare-metals", "enriched-titanium", 24)
-    data_util.replace_or_add_result(new_recipe, "rare-metals", "titanium-plate", 36)
-    data.raw.recipe[new_recipe.name] = new_recipe
-    data_util.recipe_require_tech(new_recipe.name, "se-pyroflux-smelting")
+    data_util.replace_or_add_ingredient("titanium-ingot", "molten-titanium", "molten-titanium", 250, true)
     data_util.tech_add_prerequisites("se-pyroflux-smelting", {"enriched-titanium"})
+end
+
+if settings_util.rebalance_gold then
+    new_tech = table.deepcopy(data.raw.technology["enriched-titanium"])
+    new_tech.name = "enriched-gold"
+    new_tech.effects = {}
+    new_tech.prerequisites = {
+        "kr-enriched-ores",
+        "gold-processing"
+    }
+    new_tech.icons[2].icon = data.raw.item["enriched-gold"].icon
+    new_tech.icons[2].icon_size = 128
+    new_tech.icons[2].icon_mipmaps = 0
+    new_tech.icons[2].scale = 1
+    data:extend({new_tech})
+    data_util.tech_add_ingredients("enriched-gold", {"se-rocket-science-pack"})
+    data_util.recipe_require_tech("enriched-gold", "enriched-gold")
+    data_util.recipe_require_tech("enriched-gold-ingot", "enriched-gold")
+    data_util.recipe_require_tech("dirty-water-filtration-gold", "enriched-gold")
+    data_util.tech_add_prerequisites("se-pyroflux-smelting", {"enriched-gold"})
 end
 
 if settings_util.fix_matter_recipes then
