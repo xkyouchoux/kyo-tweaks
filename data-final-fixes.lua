@@ -1,5 +1,6 @@
 local data_util = require("data_util")
 local settings_util = require("settings_util")
+local resource_autoplace = require('resource-autoplace');
 
 if settings_util.produce_double_heatshielding then
     data_util.replace_or_add_result("se-heat-shielding", "se-heat-shielding", "se-heat-shielding", 2)
@@ -132,6 +133,13 @@ if settings_util.change_chemical_plant_ingredients then
     if data.raw.recipe["chemical-plant"] and data.raw.recipe["basic-chemical-plant"] then
         data_util.remove_ingredient("chemical-plant", "pipe")
         data_util.replace_or_add_ingredient("chemical-plant", "stone-brick", "basic-chemical-plant", 1)
+        data_util.remove_ingredient("basic-chemical-plant", "tin-plate")
+        data_util.replace_or_add_ingredient("basic-chemical-plant", "sand", "stone-brick", 4)
+        data_util.replace_or_add_ingredient("basic-chemical-plant", "iron-plate", "automation-core", 3)
+        data_util.remove_ingredient("gas-extractor", "iron-plate")
+        data_util.replace_or_add_ingredient("gas-extractor", "sand", "automation-core", 2)
+        data_util.tech_remove_prerequisites("gas-extraction", {"kr-stone-processing"})
+        data_util.tech_add_ingredients_with_prerequisites("gas-extraction", {"automation-science-pack"})
     end
 end
 
@@ -140,14 +148,15 @@ if settings_util.rebalance_steel then
 end
 
 if settings_util.rebalance_tin then
+
     data.raw.resource["tin-ore"].autoplace = resource_autoplace.resource_autoplace_settings{
         name = "tin-ore",
-        order = "b-z",
-        base_density = 4,
-        base_spots_per_km2 = .5,
+        order = "b",
+        base_density = 2,
+        base_spots_per_km2 = 1,
         has_starting_area_placement = true,
         regular_rq_factor_multiplier = 1.0,
-        starting_rq_factor_multiplier = 1.0,
+        starting_rq_factor_multiplier = 1.4,
       }
     data_util.recipe_set_energy_required("tin-plate", 36)
     data_util.replace_or_add_ingredient("tin-plate", "tin-ore", "tin-ore", 20)
@@ -173,7 +182,7 @@ if settings_util.rebalance_titanium then
 end
 
 if settings_util.rebalance_gold then
-    new_tech = table.deepcopy(data.raw.technology["enriched-titanium"])
+    local new_tech = table.deepcopy(data.raw.technology["enriched-titanium"])
     new_tech.name = "enriched-gold"
     new_tech.effects = {}
     new_tech.prerequisites = {
@@ -204,7 +213,7 @@ if settings_util.fix_matter_recipes then
     end
 
     if data.raw.technology["silver-matter-processing"] then
-        if not settings.startup["bzgold-silver"].value then
+        if not settings_util.silver_processing then
             data.raw.technology["silver-matter-processing"] = null
         end
     end

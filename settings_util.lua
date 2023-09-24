@@ -39,6 +39,8 @@ settings_util.rebalance_titanium = settings.startup["kt-rebalance-titanium"] and
 --bzgold
 settings_util.rebalance_gold = settings.startup["kt-rebalance-gold"] and settings.startup["kt-rebalance-gold"].value
 
+settings_util.silver_processing = settings.startup["bzgold-silver"] and settings.startup["bzgold-silver"].value
+
 --bzgas
 settings_util.change_chemical_plant_ingredients = settings.startup["kt-change-chemical-plant-ingredients"] and settings.startup["kt-change-chemical-plant-ingredients"].value
 
