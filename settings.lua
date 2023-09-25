@@ -67,7 +67,7 @@ data:extend({
         type = "string-setting",
         name = "kt-additional-landfill-recipes",
         setting_type = "startup",
-        allow_blank = true,
+        allow_blank = false,
         default_value = "",
         order = "a-i"
     },
@@ -97,76 +97,71 @@ data:extend({
     }
 })
 
-if mods["bzfoundry"] then
+if mods["bzaluminum"] then
     data:extend({
         {
             type = "bool-setting",
-            name = "kt-change-smelting-or-kiln-recipes-to-founding-recipes",
+            name = "kt-modify-aluminum",
             setting_type = "startup",
-            default_value = true,
+            default_value = false,
             order = "b-a"
-        },
+        }
+    })
+end
+
+if mods["bzcarbon"] then
+    data:extend({
         {
             type = "bool-setting",
-            name = "kt-move-electric-foundry",
+            name = "kt-modify-carbon",
             setting_type = "startup",
-            default_value = true,
+            default_value = false,
             order = "b-b"
-        },
+        }
+    })
+end
+
+if mods["bzchlorine"] then
+    data:extend({
         {
             type = "bool-setting",
-            name = "kt-rebalance-steel",
+            name = "kt-modify-chlorine",
             setting_type = "startup",
-            default_value = true,
+            default_value = false,
             order = "b-c"
         }
     })
 end
 
-if mods["bztin"] then
+if mods["bzfoundry"] then
     data:extend({
         {
             type = "bool-setting",
-            name = "kt-rebalance-tin",
+            name = "kt-modify-foundry",
             setting_type = "startup",
-            default_value = true,
-            order = "c-a"
-        }
-    })
-end
-
-if mods["bzlead"] then
-    data:extend({
+            default_value = false,
+            order = "b-d"
+        },
         {
             type = "bool-setting",
-            name = "kt-rebalance-lead",
+            name = "kt-change-smelting-or-kiln-recipes-to-founding-recipes",
             setting_type = "startup",
-            default_value = true,
-            order = "d-a"
-        }
-    })
-end
-
-if mods["bztitanium"] then
-    data:extend({
-        {
-            type = "bool-setting",
-            name = "kt-rebalance-titanium",
-            setting_type = "startup",
-            default_value = true,
-            order = "e-a"
-        }
-    })
-end
-
-if mods["bzgold"] then
-    data:extend({
-        {
-            type = "bool-setting",
-            name = "kt-rebalance-gold",
-            setting_type = "startup",
-            default_value = true,
+            default_value = false,
             order = "f-a"
+        },
+        {
+            type = "bool-setting",
+            name = "kt-move-electric-foundry",
+            setting_type = "startup",
+            default_value = false,
+            order = "f-b"
+        },
+        {
+            type = "bool-setting",
+            name = "kt-rebalance-steel",
+            setting_type = "startup",
+            default_value = false,
+            order = "f-c"
         }
     })
 end
@@ -175,10 +170,129 @@ if mods["bzgas"] then
     data:extend({
         {
             type = "bool-setting",
+            name = "kt-modify-gas",
+            setting_type = "startup",
+            default_value = false,
+            order = "b-e"
+        },
+        {
+            type = "bool-setting",
             name = "kt-change-chemical-plant-ingredients",
             setting_type = "startup",
-            default_value = true,
+            default_value = false,
             order = "g-a"
+        }
+    })
+end
+
+if mods["bzgold"] then
+    data:extend({
+        {
+            type = "bool-setting",
+            name = "kt-modify-gold",
+            setting_type = "startup",
+            default_value = false,
+            order = "b-f"
+        },
+        {
+            type = "bool-setting",
+            name = "kt-rebalance-gold",
+            setting_type = "startup",
+            default_value = false,
+            order = "h-a"
+        }
+    })
+end
+
+if mods["bzlead"] then
+    data:extend({
+        {
+            type = "bool-setting",
+            name = "kt-modify-lead",
+            setting_type = "startup",
+            default_value = false,
+            order = "b-g"
+        },
+        {
+            type = "bool-setting",
+            name = "kt-rebalance-lead",
+            setting_type = "startup",
+            default_value = false,
+            order = "i-a"
+        }
+    })
+end
+
+if mods["bzsilicon"] then
+    data:extend({
+        {
+            type = "bool-setting",
+            name = "kt-modify-silicon",
+            setting_type = "startup",
+            default_value = false,
+            order = "b-h"
+        }
+    })
+end
+
+if mods["bztin"] then
+    data:extend({
+        {
+            type = "bool-setting",
+            name = "kt-modify-tin",
+            setting_type = "startup",
+            default_value = false,
+            order = "b-i"
+        },
+        {
+            type = "bool-setting",
+            name = "kt-rebalance-tin",
+            setting_type = "startup",
+            default_value = false,
+            order = "j-a"
+        }
+    })
+end
+
+if mods["bztungsten"] then
+    data:extend({
+        {
+            type = "bool-setting",
+            name = "kt-modify-tungsten",
+            setting_type = "startup",
+            default_value = false,
+            order = "b-j"
+        }
+    })
+end
+
+if mods["bztitanium"] then
+    data:extend({
+        {
+            type = "bool-setting",
+            name = "kt-modify-titanium",
+            setting_type = "startup",
+            default_value = false,
+            order = "b-k"
+        },
+        {
+            type = "bool-setting",
+            name = "kt-rebalance-titanium",
+            setting_type = "startup",
+            default_value = false,
+            order = "l-a"
+        }
+    })
+end
+
+if mods["bzzirconium"] then
+    data:extend({
+        {
+            type = "bool-setting",
+            name = "kt-modify-zirconium",
+            setting_type = "startup",
+            default_value = false,
+            order = "b-l"
         }
     })
 end

@@ -22,26 +22,63 @@ settings_util.modified_space_scaffolding_amount = settings.startup["kt-modified-
 settings_util.modified_space_plating_amount = settings.startup["kt-modified-space-plating-amount"].value
 settings_util.modified_spaceship_floor_amount = settings.startup["kt-modified-spaceship-floor-amount"].value
 
+--modify
+settings_util.modify_aluminum = settings.startup["kt-modify-aluminum"] and settings.startup["kt-modify-aluminum"].value
+settings_util.modify_carbon = settings.startup["kt-modify-carbon"] and settings.startup["kt-modify-carbon"].value
+settings_util.modify_chlorine = settings.startup["kt-modify-chlorine"] and settings.startup["kt-modify-chlorine"].value
+settings_util.modify_foundry = settings.startup["kt-modify-foundry"] and settings.startup["kt-modify-foundry"].value
+settings_util.modify_gas = settings.startup["kt-modify-gas"] and settings.startup["kt-modify-gas"].value
+settings_util.modify_gold = settings.startup["kt-modify-gold"] and settings.startup["kt-modify-gold"].value
+settings_util.modify_lead = settings.startup["kt-modify-lead"] and settings.startup["kt-modify-lead"].value
+settings_util.modify_silicon = settings.startup["kt-modify-silicon"] and settings.startup["kt-modify-silicon"].value
+settings_util.modify_tin = settings.startup["kt-modify-tin"] and settings.startup["kt-modify-tin"].value
+settings_util.modify_tungsten = settings.startup["kt-modify-tungsten"] and settings.startup["kt-modify-tungsten"].value
+settings_util.modify_titanium = settings.startup["kt-modify-titanium"] and settings.startup["kt-modify-titanium"].value
+settings_util.modify_zirconium = settings.startup["kt-modify-zirconium"] and settings.startup["kt-modify-zirconium"].value
+
+--bzaluminum
+settings_util.aluminum = {}
+
+--bzcarbon
+settings_util.carbon = {}
+
+--bzchlorine
+settings_util.chlorine = {}
+
 --bzfoundry
-settings_util.change_smelting_or_kiln_recipes_to_founding_recipes = settings.startup["kt-change-smelting-or-kiln-recipes-to-founding-recipes"] and settings.startup["kt-change-smelting-or-kiln-recipes-to-founding-recipes"].value
-settings_util.move_electric_foundry = settings.startup["kt-move-electric-foundry"] and settings.startup["kt-move-electric-foundry"].value
-settings_util.rebalance_steel = settings.startup["kt-rebalance-steel"] and settings.startup["kt-rebalance-steel"].value
-
---bztin
-settings_util.rebalance_tin = settings.startup["kt-rebalance-tin"] and settings.startup["kt-rebalance-tin"].value
-
---bzlead
-settings_util.rebalance_lead = settings.startup["kt-rebalance-lead"] and settings.startup["kt-rebalance-lead"].value
-
---bztitanium
-settings_util.rebalance_titanium = settings.startup["kt-rebalance-titanium"] and settings.startup["kt-rebalance-titanium"].value
-
---bzgold
-settings_util.rebalance_gold = settings.startup["kt-rebalance-gold"] and settings.startup["kt-rebalance-gold"].value
-
-settings_util.silver_processing = settings.startup["bzgold-silver"] and settings.startup["bzgold-silver"].value
+settings_util.foundry = {}
+settings_util.foundry.change_smelting_or_kiln_recipes_to_founding_recipes = settings_util.modify_foundry and settings.startup["kt-change-smelting-or-kiln-recipes-to-founding-recipes"] and settings.startup["kt-change-smelting-or-kiln-recipes-to-founding-recipes"].value
+settings_util.foundry.move_electric_foundry = settings_util.modify_foundry and settings.startup["kt-move-electric-foundry"] and settings.startup["kt-move-electric-foundry"].value
+settings_util.foundry.rebalance_steel = settings_util.modify_foundry and settings.startup["kt-rebalance-steel"] and settings.startup["kt-rebalance-steel"].value
 
 --bzgas
-settings_util.change_chemical_plant_ingredients = settings.startup["kt-change-chemical-plant-ingredients"] and settings.startup["kt-change-chemical-plant-ingredients"].value
+settings_util.gas = {}
+settings_util.gas.change_chemical_plant_ingredients = settings_util.modify_gas and settings.startup["kt-change-chemical-plant-ingredients"] and settings.startup["kt-change-chemical-plant-ingredients"].value
+
+--bzgold
+settings_util.gold = {}
+settings_util.gold.rebalance_gold = settings_util.modify_gold and settings.startup["kt-rebalance-gold"] and settings.startup["kt-rebalance-gold"].value
+settings_util.gold.silver_processing = settings_util.modify_gold and settings.startup["bzgold-silver"] and settings.startup["bzgold-silver"].value
+
+--bzlead
+settings_util.lead = {}
+settings_util.lead.rebalance_lead = settings_util.modify_lead and settings.startup["kt-rebalance-lead"] and settings.startup["kt-rebalance-lead"].value
+
+--bzsilicon
+settings_util.silicon = {}
+
+--bztin
+settings_util.tin = {}
+settings_util.tin.rebalance_tin = settings_util.modify_tin and settings.startup["kt-rebalance-tin"] and settings.startup["kt-rebalance-tin"].value
+
+--bztungsten
+settings_util.tungsten = {}
+
+--bztitanium
+settings_util.titanium = {}
+settings_util.titanium.rebalance_titanium = settings_util.modify_titanium and settings.startup["kt-rebalance-titanium"] and settings.startup["kt-rebalance-titanium"].value
+
+--bzzirconium
+settings_util.zirconium = {}
 
 return settings_util

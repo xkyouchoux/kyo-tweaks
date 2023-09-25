@@ -9,7 +9,7 @@ end
 if settings_util.produce_double_lds then
     data_util.replace_or_add_result("low-density-structure", "low-density-structure", "low-density-structure", 2)
     data_util.replace_or_add_result("se-low-density-structure-beryllium", "low-density-structure", "low-density-structure", 4)
-    if data.raw.recipe["low-density-structure-nanotubes"] then
+    if settings_util.modify_carbon and data.raw.recipe["low-density-structure-nanotubes"] then
         data_util.replace_or_add_result("low-density-structure-nanotubes", "low-density-structure", "low-density-structure", 4)
     end
 end
@@ -60,34 +60,39 @@ if settings_util.change_kiln_recipes_back_to_smelting_recipes then
     end
 end
 
-data_util.create_landfill_recipe("gold-ore")
-data_util.create_landfill_recipe("silver-ore")
+if settings_util.modify_gold then
+    data_util.create_landfill_recipe("gold-ore")
+    data_util.create_landfill_recipe("silver-ore")
+end
 
-for _, value in pairs({
-    "landfill",
-    "landfill-2", 
-    "landfill-sand",
-    "landfill-se-scrap", 
-    "landfill-iron-ore", 
-    "landfill-copper-ore", 
-    "landfill-se-iridium-ore", 
-    "landfill-se-holmium-ore", 
-    "landfill-se-beryllium-ore", 
-    "landfill-raw-rare-metals", 
-    "landfill-raw-imersite",
+for name, value in pairs({
+    "landfill" = true,
+    "landfill-2" = true, 
+    "landfill-sand" = true,
+    "landfill-se-scrap" = true, 
+    "landfill-iron-ore" = true, 
+    "landfill-copper-ore" = true,
+    "landfill-se-cryonite" = true,
+    "landfill-se-vulcanite" = true,
+    "landfill-se-vitamelange" = true,
+    "landfill-se-iridium-ore" = true, 
+    "landfill-se-holmium-ore" = true, 
+    "landfill-se-beryllium-ore" = true, 
+    "landfill-raw-rare-metals" = true, 
+    "landfill-raw-imersite" = true,
     
-    "landfill-silica", 
-    "landfill-lead-ore", 
-    "landfill-titanium-ore", 
-    "landfill-tungsten-ore", 
-    "landfill-zircon", 
-    "landfill-flake-graphite", 
-    "landfill-aluminum-ore", 
-    "landfill-tin-ore",
-    "landfill-gold-ore",
-    "landfill-silver-ore"
+    "landfill-silica" = settings_util.modify_aluminum, 
+    "landfill-lead-ore" = settings_util.modify_lead, 
+    "landfill-titanium-ore" = settings_util.modify_titanium, 
+    "landfill-tungsten-ore" = settings_util.modify_tungsten, 
+    "landfill-zircon" = settings_util.modify_zirconium, 
+    "landfill-flake-graphite" = settings_util.modify_carbon, 
+    "landfill-aluminum-ore" = settings_util.modify_aluminum, 
+    "landfill-tin-ore" = settings_util.modify_tin,
+    "landfill-gold-ore" = settings_util.modify_gold,
+    "landfill-silver-ore" = settings_util.modify_gold
 }) do
-    data_util.modify_landfill_recipe(value)
+    if value then data_util.modify_landfill_recipe(name) end
 end
 
 for _, value in pairs({settings_util.additional_landfill_recipes}) do
@@ -106,7 +111,7 @@ if settings_util.modified_spaceship_floor_amount > 1 then
     data_util.replace_or_add_result("se-spaceship-floor", "se-spaceship-floor", "se-spaceship-floor", settings_util.modified_spaceship_floor_amount)
 end
 
-if settings_util.change_smelting_or_kiln_recipes_to_founding_recipes then
+if settings_util.foundry.change_smelting_or_kiln_recipes_to_founding_recipes then
     for name, recipe in pairs(data.raw.recipe) do
         if (recipe.category == "kiln" or recipe.category == "smelting") and not name == "stone-brick" then
             if recipe.ingredients and #recipe.ingredients > 1 then
@@ -116,7 +121,7 @@ if settings_util.change_smelting_or_kiln_recipes_to_founding_recipes then
     end
 end
 
-if settings_util.move_electric_foundry then
+if settings_util.foundry.move_electric_foundry then
     data_util.replace_or_add_ingredient("electric-foundry", "processing-unit", "advanced-circuit", 5)
     data_util.recipe_require_tech("electric-foundry", "advanced-material-processing-2")
     if data.raw.technology["electric-foundry"] then
@@ -128,11 +133,17 @@ if settings_util.move_electric_foundry then
     end
 end
 
-if settings_util.change_chemical_plant_ingredients then
+if settings_util.foundry.rebalance_steel then
+    data_util.recipe_set_energy_required("steel-plate", 16)
+end
+
+if settings_util.gas.change_chemical_plant_ingredients then
     if data.raw.recipe["chemical-plant"] and data.raw.recipe["basic-chemical-plant"] then
         data_util.remove_ingredient("chemical-plant", "pipe")
         data_util.replace_or_add_ingredient("chemical-plant", "stone-brick", "basic-chemical-plant", 1)
-        data_util.remove_ingredient("basic-chemical-plant", "tin-plate")
+        if settings_util.modify_tin then
+            data_util.remove_ingredient("basic-chemical-plant", "tin-plate")
+        end
         data_util.replace_or_add_ingredient("basic-chemical-plant", "sand", "stone-brick", 4)
         data_util.replace_or_add_ingredient("basic-chemical-plant", "iron-plate", "automation-core", 3)
         data_util.remove_ingredient("gas-extractor", "iron-plate")
@@ -142,11 +153,7 @@ if settings_util.change_chemical_plant_ingredients then
     end
 end
 
-if settings_util.rebalance_steel then
-    data_util.recipe_set_energy_required("steel-plate", 16)
-end
-
-if settings_util.rebalance_tin then
+if settings_util.tin.rebalance_tin then
     data_util.recipe_set_energy_required("tin-plate", 36)
     data_util.replace_or_add_ingredient("tin-plate", "tin-ore", "tin-ore", 20)
     data_util.replace_or_add_result("tin-plate", "tin-plate", "tin-plate", 15)
@@ -155,7 +162,7 @@ if settings_util.rebalance_tin then
     data_util.replace_or_add_result("dirty-water-filtration-tin", "tin-ore", "tin-ore", nil, nil, 1, 1, .1)
 end
 
-if settings_util.rebalance_lead then
+if settings_util.lead.rebalance_lead then
     data_util.recipe_set_energy_required("lead-plate", 48)
     data_util.replace_or_add_ingredient("lead-plate", "lead-ore", "lead-ore", 20)
     data_util.replace_or_add_result("lead-plate", "lead-plate", "lead-plate", 15)
@@ -163,14 +170,14 @@ if settings_util.rebalance_lead then
     data_util.replace_or_add_result("dirty-water-filtration-lead", "lead-ore", "lead-ore", nil, nil, 1, 1, .1)
 end
 
-if settings_util.rebalance_titanium then
+if settings_util.titanium.rebalance_titanium then
     data_util.replace_or_add_result("titanium-plate", "titanium-plate", "titanium-plate", 5)
     data_util.replace_or_add_ingredient("enriched-titanium-plate", "enriched-titanium", "enriched-titanium", 5)
     data_util.replace_or_add_ingredient("titanium-ingot", "molten-titanium", "molten-titanium", 250, true)
     data_util.tech_add_prerequisites("se-pyroflux-smelting", {"enriched-titanium"})
 end
 
-if settings_util.rebalance_gold then
+if settings_util.gold.rebalance_gold then
     local new_tech = table.deepcopy(data.raw.technology["enriched-titanium"])
     new_tech.name = "enriched-gold"
     new_tech.effects = {}
@@ -196,111 +203,125 @@ if settings_util.fix_matter_recipes then
     if adv_stone then
         data_util.recipe_require_tech("matter-to-glass", adv_stone)
         data_util.recipe_require_tech("matter-to-silicon", adv_stone)
-        if data.raw.recipe["matter-to-silica"] then
+        if settings_util.modify_silicon and data.raw.recipe["matter-to-silica"] then
             data_util.recipe_require_tech("matter-to-silica", adv_stone)
         end
     end
 
-    if data.raw.technology["silver-matter-processing"] then
+    if settings_util.modify_gold and data.raw.technology["silver-matter-processing"] then
         if not settings_util.silver_processing then
             data.raw.technology["silver-matter-processing"] = null
         end
     end
 
-    for _, name in pairs({
-        "aluminum",
-        "carbon",
-        "gas",
-        "gold",
-        "salt",
-        "silver",
-        "lead",
-        "tin",
-        "titanium",
-        "tungsten",
-        "zirconium"
+    for name, value in pairs({
+        "aluminum" = settings_util.modify_aluminum,
+        "carbon" = settings_util.modify_carbon,
+        "gas" = settings_util.modify_gas,
+        "gold" = settings_util.modify_gold,
+        "salt" = settings_util.modify_chlorine,
+        "silver" = settings_util.modify_gold,
+        "lead" = settings_util.modify_lead,
+        "tin" = settings_util.modify_tin,
+        "titanium" = settings_util.titanium,
+        "tungsten" = settings_util.modify_tungsten,
+        "zirconium" = settings_util.modify_zirconium
     }) do
-        data_util.update_matter_tech(name.."-matter-processing")
+        if value then data_util.update_matter_tech(name.."-matter-processing") end
     end
 
-    if data.raw.recipe["matter-to-salt"] then
+    if settings_util.modify_chlorine and data.raw.recipe["matter-to-salt"] then
         data_util.replace_stabilizer("matter-to-salt")
     end
 
-    if data.raw.recipe["matter-to-gas"] then
+    if settings_util.modify_gas and data.raw.recipe["matter-to-gas"] then
         data_util.add_basic_stabilizer("matter-to-gas")
         data_util.set_matter_ingredient("matter-to-gas", 10)
     end
 
-    if data.raw.recipe["matter-to-silver-ore"] then
+    if settings_util.modify_gold and data.raw.recipe["matter-to-silver-ore"] then
         data_util.replace_stabilizer("matter-to-silver-ore")
         data_util.set_matter_ingredient("matter-to-silver-ore", 16)
     end
 
-    if data.raw.technology["gold-matter-processing"] then
+    if settings_util.modify_gold and data.raw.technology["gold-matter-processing"] then
         data_util.tech_add_prerequisites("gold-matter-processing", {"se-kr-advanced-matter-processing"})
         data_util.set_matter_ingredient("matter-to-gold-ore", 60)
     end
 
-    local adv_aluminum = data_util.split_matter_tech("aluminum-matter-processing")
-    if adv_aluminum then
-        data_util.recipe_require_tech("matter-to-alumina", adv_aluminum)
-        data_util.recipe_require_tech("matter-to-aluminum-plate", adv_aluminum)
-        data_util.add_basic_stabilizer("matter-to-aluminum-ore")
-        data_util.set_matter_ingredient("matter-to-aluminum-ore", 10)
-        data_util.set_matter_ingredient("matter-to-alumina", 15)
-        data_util.set_matter_ingredient("matter-to-aluminum-plate", 20)
+    if settings_util.modify_aluminum then
+        local adv_aluminum = data_util.split_matter_tech("aluminum-matter-processing")
+        if adv_aluminum then
+            data_util.recipe_require_tech("matter-to-alumina", adv_aluminum)
+            data_util.recipe_require_tech("matter-to-aluminum-plate", adv_aluminum)
+            data_util.add_basic_stabilizer("matter-to-aluminum-ore")
+            data_util.set_matter_ingredient("matter-to-aluminum-ore", 10)
+            data_util.set_matter_ingredient("matter-to-alumina", 15)
+            data_util.set_matter_ingredient("matter-to-aluminum-plate", 20)
+        end
     end
     
-    local adv_carbon = data_util.split_matter_tech("carbon-matter-processing")
-    if adv_carbon then
-        data_util.recipe_require_tech("matter-to-graphite", adv_carbon)
-        data_util.recipe_require_tech("matter-to-diamond", adv_carbon)
-        data_util.add_basic_stabilizer("matter-to-flake-graphite")
-        data_util.set_matter_ingredient("matter-to-flake-graphite", 10)
-        data_util.set_matter_ingredient("matter-to-graphite", 15)
-        data_util.set_matter_ingredient("matter-to-diamond", 20)
+    if settings_util.modify_carbon then
+        local adv_carbon = data_util.split_matter_tech("carbon-matter-processing")
+        if adv_carbon then
+            data_util.recipe_require_tech("matter-to-graphite", adv_carbon)
+            data_util.recipe_require_tech("matter-to-diamond", adv_carbon)
+            data_util.add_basic_stabilizer("matter-to-flake-graphite")
+            data_util.set_matter_ingredient("matter-to-flake-graphite", 10)
+            data_util.set_matter_ingredient("matter-to-graphite", 15)
+            data_util.set_matter_ingredient("matter-to-diamond", 20)
+        end
     end
 
-    local adv_lead = data_util.split_matter_tech("lead-matter-processing")
-    if adv_lead then
-        data_util.recipe_require_tech("matter-to-lead-plate", adv_lead)
-        data_util.add_basic_stabilizer("matter-to-lead-ore")
-        data_util.set_matter_ingredient("matter-to-lead-ore", 10)
-        data_util.set_matter_ingredient("matter-to-lead-plate", 15)
+    if settings_util.modify_lead then
+        local adv_lead = data_util.split_matter_tech("lead-matter-processing")
+        if adv_lead then
+            data_util.recipe_require_tech("matter-to-lead-plate", adv_lead)
+            data_util.add_basic_stabilizer("matter-to-lead-ore")
+            data_util.set_matter_ingredient("matter-to-lead-ore", 10)
+            data_util.set_matter_ingredient("matter-to-lead-plate", 15)
+        end
     end
 
-    local adv_tin = data_util.split_matter_tech("tin-matter-processing")
-    if adv_tin then
-        data_util.recipe_require_tech("matter-to-tin-plate", adv_tin)
-        data_util.add_basic_stabilizer("matter-to-tin-ore")
-        data_util.set_matter_ingredient("matter-to-tin-ore", 10)
-        data_util.set_matter_ingredient("matter-to-tin-plate", 15)
+    if settings_util.modify_tin then
+        local adv_tin = data_util.split_matter_tech("tin-matter-processing")
+        if adv_tin then
+            data_util.recipe_require_tech("matter-to-tin-plate", adv_tin)
+            data_util.add_basic_stabilizer("matter-to-tin-ore")
+            data_util.set_matter_ingredient("matter-to-tin-ore", 10)
+            data_util.set_matter_ingredient("matter-to-tin-plate", 15)
+        end
     end
 
-    local adv_titanium = data_util.split_matter_tech("titanium-matter-processing")
-    if adv_titanium then
-        data_util.recipe_require_tech("matter-to-titanium-plate", adv_titanium)
-        data_util.add_basic_stabilizer("matter-to-titanium-ore")
-        data_util.set_matter_ingredient("matter-to-titanium-ore", 16)
-        data_util.set_matter_ingredient("matter-to-titanium-plate", 24)
+    if settings_util.modify_titanium then
+        local adv_titanium = data_util.split_matter_tech("titanium-matter-processing")
+        if adv_titanium then
+            data_util.recipe_require_tech("matter-to-titanium-plate", adv_titanium)
+            data_util.add_basic_stabilizer("matter-to-titanium-ore")
+            data_util.set_matter_ingredient("matter-to-titanium-ore", 16)
+            data_util.set_matter_ingredient("matter-to-titanium-plate", 24)
+        end
     end
 
-    local adv_tungsten = data_util.split_matter_tech("tungsten-matter-processing")
-    if adv_tungsten then
-        data_util.recipe_require_tech("matter-to-tungsten-plate", adv_tungsten)
-        data_util.replace_stabilizer("matter-to-tungsten-ore")
-        data_util.set_matter_ingredient("matter-to-tungsten-ore", 12)
-        data_util.set_matter_ingredient("matter-to-tungsten-plate", 18)
+    if settings_util.modify_tungsten then
+        local adv_tungsten = data_util.split_matter_tech("tungsten-matter-processing")
+        if adv_tungsten then
+            data_util.recipe_require_tech("matter-to-tungsten-plate", adv_tungsten)
+            data_util.replace_stabilizer("matter-to-tungsten-ore")
+            data_util.set_matter_ingredient("matter-to-tungsten-ore", 12)
+            data_util.set_matter_ingredient("matter-to-tungsten-plate", 18)
+        end
     end
 
-    local adv_zirconium = data_util.split_matter_tech("zirconium-matter-processing")
-    if adv_zirconium then
-        data_util.recipe_require_tech("matter-to-zirconia", adv_zirconium)
-        data_util.recipe_require_tech("matter-to-zirconium-plate", adv_zirconium)
-        data_util.add_basic_stabilizer("matter-to-zircon")
-        data_util.set_matter_ingredient("matter-to-zircon", 12)
-        data_util.set_matter_ingredient("matter-to-zirconia", 18)
-        data_util.set_matter_ingredient("matter-to-zirconium-plate", 27)
+    if settings_util.modify_zirconium then
+        local adv_zirconium = data_util.split_matter_tech("zirconium-matter-processing")
+        if adv_zirconium then
+            data_util.recipe_require_tech("matter-to-zirconia", adv_zirconium)
+            data_util.recipe_require_tech("matter-to-zirconium-plate", adv_zirconium)
+            data_util.add_basic_stabilizer("matter-to-zircon")
+            data_util.set_matter_ingredient("matter-to-zircon", 12)
+            data_util.set_matter_ingredient("matter-to-zirconia", 18)
+            data_util.set_matter_ingredient("matter-to-zirconium-plate", 27)
+        end
     end
 end
