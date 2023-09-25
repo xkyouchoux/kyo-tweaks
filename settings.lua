@@ -67,7 +67,7 @@ data:extend({
         type = "string-setting",
         name = "kt-additional-landfill-recipes",
         setting_type = "startup",
-        allow_blank = false,
+        allow_blank = true,
         default_value = "",
         order = "a-i"
     },
@@ -94,7 +94,14 @@ data:extend({
         default_value = 1,
         allowed_values = {1, 2, 5, 10},
         order = "a-l"
-    }
+    },
+    {
+        type = "bool-setting",
+        name = "kt-add-more-landfill-recipes",
+        setting_type = "startup",
+        default_value = false,
+        order = "a-m"
+    },
 })
 
 if mods["bzaluminum"] then
@@ -200,6 +207,13 @@ if mods["bzgold"] then
             setting_type = "startup",
             default_value = false,
             order = "h-a"
+        },
+        {
+            type = "bool-setting",
+            name = "kt-rebalance-silver",
+            setting_type = "startup",
+            default_value = false,
+            order = "h-b"
         }
     })
 end

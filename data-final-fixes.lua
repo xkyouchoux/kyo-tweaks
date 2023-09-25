@@ -60,37 +60,45 @@ if settings_util.change_kiln_recipes_back_to_smelting_recipes then
     end
 end
 
-if settings_util.modify_gold then
-    data_util.create_landfill_recipe("gold-ore")
-    data_util.create_landfill_recipe("silver-ore")
+if settings_util.add_more_landfill_recipes then
+    if settings_util.modify_gold then
+        data_util.create_landfill_recipe("gold-ore")
+        data_util.create_landfill_recipe("silver-ore")
+    end
+    
+    data_util.create_landfill_recipe("uranium-ore")
+    data_util.create_landfill_recipe("se-vitamelange")
+    data_util.create_landfill_recipe("se-cryonite")
+    data_util.create_landfill_recipe("se-vulcanite")
 end
 
 for name, value in pairs({
-    "landfill" = true,
-    "landfill-2" = true, 
-    "landfill-sand" = true,
-    "landfill-se-scrap" = true, 
-    "landfill-iron-ore" = true, 
-    "landfill-copper-ore" = true,
-    "landfill-se-cryonite" = true,
-    "landfill-se-vulcanite" = true,
-    "landfill-se-vitamelange" = true,
-    "landfill-se-iridium-ore" = true, 
-    "landfill-se-holmium-ore" = true, 
-    "landfill-se-beryllium-ore" = true, 
-    "landfill-raw-rare-metals" = true, 
-    "landfill-raw-imersite" = true,
+    ["landfill"] = true,
+    ["landfill-2"] = true, 
+    ["landfill-sand"] = true,
+    ["landfill-se-scrap"] = true, 
+    ["landfill-iron-ore"] = true, 
+    ["landfill-copper-ore"] = true,
+    ["landfill-uranium-ore"] = true,
+    ["landfill-se-cryonite"] = true,
+    ["landfill-se-vulcanite"] = true,
+    ["landfill-se-vitamelange"] = true,
+    ["landfill-se-iridium-ore"] = true, 
+    ["landfill-se-holmium-ore"] = true, 
+    ["landfill-se-beryllium-ore"] = true, 
+    ["landfill-raw-rare-metals"] = true, 
+    ["landfill-raw-imersite"] = true,
     
-    "landfill-silica" = settings_util.modify_aluminum, 
-    "landfill-lead-ore" = settings_util.modify_lead, 
-    "landfill-titanium-ore" = settings_util.modify_titanium, 
-    "landfill-tungsten-ore" = settings_util.modify_tungsten, 
-    "landfill-zircon" = settings_util.modify_zirconium, 
-    "landfill-flake-graphite" = settings_util.modify_carbon, 
-    "landfill-aluminum-ore" = settings_util.modify_aluminum, 
-    "landfill-tin-ore" = settings_util.modify_tin,
-    "landfill-gold-ore" = settings_util.modify_gold,
-    "landfill-silver-ore" = settings_util.modify_gold
+    ["landfill-silica"] = settings_util.modify_aluminum, 
+    ["landfill-lead-ore"] = settings_util.modify_lead, 
+    ["landfill-titanium-ore"] = settings_util.modify_titanium, 
+    ["landfill-tungsten-ore"] = settings_util.modify_tungsten, 
+    ["landfill-zircon"] = settings_util.modify_zirconium, 
+    ["landfill-flake-graphite"] = settings_util.modify_carbon, 
+    ["landfill-aluminum-ore"] = settings_util.modify_aluminum, 
+    ["landfill-tin-ore"] = settings_util.modify_tin,
+    ["landfill-gold-ore"] = settings_util.modify_gold,
+    ["landfill-silver-ore"] = settings_util.modify_gold
 }) do
     if value then data_util.modify_landfill_recipe(name) end
 end
@@ -197,6 +205,45 @@ if settings_util.gold.rebalance_gold then
     data_util.tech_add_prerequisites("se-pyroflux-smelting", {"enriched-gold"})
 end
 
+if settings_util.gold.rebalance_silver then
+    local gold_modifier = (settings_util.gold.gold_byproduct and settings_util.modify_gold) and 0 or 2
+    if settings_util.lead.lead_byproduct and settings_util.modify_lead then
+        --[[
+            copper-plate -> 1 silver-ore
+            lead-plate -> 3-6 silver-ore
+            gold-ingot -> 2 silver-ore
+
+            enriched-copper -> 1 silver-ore
+            enriched-lead -> 2 silver-ore
+            enriched-gold -> 1 enriched-silver
+        ]]
+        data_util.replace_or_add_result("copper-plate", "silver-ore", "silver-ore", 1 + gold_modifier)
+        data_util.replace_or_add_result("enriched-copper", "silver-ore", "silver-ore", 1 + gold_modifier)
+        data_util.replace_or_add_result("lead-plate", "silver-ore", "silver-ore", nil, nil, 3, 6)
+        data_util.replace_or_add_result("enriched-lead", "silver-ore", "silver-ore", nil, nil, 2, 3)
+    else
+        data_util.replace_or_add_result("copper-plate", "silver-ore", "silver-ore", nil, nil, 4 + gold_modifier, 7 + gold_modifier)
+        data_util.replace_or_add_result("enriched-copper", "silver-ore", "silver-ore", nil, nil, 3 + gold_modifier, 4 + gold_modifier)
+    end
+    if gold_modifier == 0 then
+        data_util.replace_or_add_result("enriched-gold", "enriched-silver", "silver-ore", 2)
+    else
+        data_util.replace_or_add_result("enriched-gold", "enriched-gold", "enriched-gold", 6)
+        data_util.remove_result("enriched-gold", "enriched-silver")
+    end
+    data_util.replace_or_add_ingredient("silver-plate", "silver-ore", "silver-ore", 20)
+    data_util.replace_or_add_result("silver-plate", "silver-plate", "silver-plate", 15)
+    data_util.recipe_set_energy_required("silver-plate", 32)
+    data_util.replace_or_add_result("enriched-silver", "enriched-silver", "enriched-silver", 9)
+    data_util.replace_or_add_result("dirty-water-filtration-silver", "silver-ore", "silver-ore", nil, nil, 1, 1, .1)
+    data_util.replace_or_add_ingredient("enriched-silver-plate", "enriched-silver", "enriched-silver", 5)
+    data_util.replace_or_add_result("enriched-silver-plate", "silver-plate", "silver-plate", 5)
+    data_util.recipe_set_energy_required("enriched-silver-plate", 16)
+    data_util.recipe_set_energy_required("molten-silver", 45)
+    data_util.recipe_set_energy_required("silver-ingot", 18.75)
+    data_util.recipe_set_energy_required("silver-ingot-to-plate", 3.75)
+end
+
 if settings_util.fix_matter_recipes then
     local adv_stone = data_util.split_matter_tech("kr-matter-stone-processing")
 
@@ -215,17 +262,17 @@ if settings_util.fix_matter_recipes then
     end
 
     for name, value in pairs({
-        "aluminum" = settings_util.modify_aluminum,
-        "carbon" = settings_util.modify_carbon,
-        "gas" = settings_util.modify_gas,
-        "gold" = settings_util.modify_gold,
-        "salt" = settings_util.modify_chlorine,
-        "silver" = settings_util.modify_gold,
-        "lead" = settings_util.modify_lead,
-        "tin" = settings_util.modify_tin,
-        "titanium" = settings_util.titanium,
-        "tungsten" = settings_util.modify_tungsten,
-        "zirconium" = settings_util.modify_zirconium
+        ["aluminum"] = settings_util.modify_aluminum,
+        ["carbon"] = settings_util.modify_carbon,
+        ["gas"] = settings_util.modify_gas,
+        ["gold"] = settings_util.modify_gold,
+        ["salt"] = settings_util.modify_chlorine,
+        ["silver"] = settings_util.modify_gold,
+        ["lead"] = settings_util.modify_lead,
+        ["tin"] = settings_util.modify_tin,
+        ["titanium"] = settings_util.titanium,
+        ["tungsten"] = settings_util.modify_tungsten,
+        ["zirconium"] = settings_util.modify_zirconium
     }) do
         if value then data_util.update_matter_tech(name.."-matter-processing") end
     end

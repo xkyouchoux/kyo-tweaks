@@ -24,6 +24,27 @@ local tech_cards = {
     "se-kr-matter-science-pack-2"
 }
 
+data_util.remove_result = function(recipe, old)
+    if type(recipe) == "string" then recipe = data.raw.recipe[recipe] end
+    if not recipe then return end
+    if recipe.result then data_util.result_to_results(recipe) end
+    if recipe.results then
+        data_util.remove_result_sub(recipe, old)
+    end
+    if recipe.normal then
+        if recipe.normal.result then data_util.result_to_results(recipe.normal) end
+        if recipe.normal.results then
+            data_util.remove_result_sub(recipe.normal, old)
+        end
+    end
+    if recipe.expensive then
+        if recipe.expensive.result then data_util.result_to_results(recipe.expensive) end
+        if recipe.expensive.results then
+            data_util.remove_result_sub(recipe.expensive, old)
+        end
+    end
+end
+
 data_util.create_landfill_recipe = function(item)
     if not data.raw.recipe["landfill-"..item] and data.raw.item[item] then
         new_recipe = table.deepcopy(data.raw.recipe["landfill-iron-ore"])

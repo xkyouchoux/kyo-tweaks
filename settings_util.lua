@@ -22,6 +22,8 @@ settings_util.modified_space_scaffolding_amount = settings.startup["kt-modified-
 settings_util.modified_space_plating_amount = settings.startup["kt-modified-space-plating-amount"].value
 settings_util.modified_spaceship_floor_amount = settings.startup["kt-modified-spaceship-floor-amount"].value
 
+settings_util.add_more_landfill_recipes = settings.startup["kt-add-more-landfill-recipes"].value
+
 --modify
 settings_util.modify_aluminum = settings.startup["kt-modify-aluminum"] and settings.startup["kt-modify-aluminum"].value
 settings_util.modify_carbon = settings.startup["kt-modify-carbon"] and settings.startup["kt-modify-carbon"].value
@@ -57,11 +59,14 @@ settings_util.gas.change_chemical_plant_ingredients = settings_util.modify_gas a
 
 --bzgold
 settings_util.gold = {}
+settings_util.gold.gold_byproduct = (settings.startup["bzgold-byproduct"] and settings.startup["bzgold-byproduct"].value) and not (settings.startup["bz-no-byproduct"] and settings.startup["bz-no-byproduct"].value)
 settings_util.gold.rebalance_gold = settings_util.modify_gold and settings.startup["kt-rebalance-gold"] and settings.startup["kt-rebalance-gold"].value
-settings_util.gold.silver_processing = settings_util.modify_gold and settings.startup["bzgold-silver"] and settings.startup["bzgold-silver"].value
+settings_util.gold.rebalance_silver = settings_util.modify_gold and settings.startup["kt-rebalance-silver"] and settings.startup["kt-rebalance-silver"].value
+settings_util.gold.silver_processing = settings_util.modify_gold and (settings.startup["bzgold-silver"] and settings.startup["bzgold-silver"].value) or (settings.startup["bz-all-intermediates"] and settings.startup["bz-all-intermediates"].value)
 
 --bzlead
 settings_util.lead = {}
+settings_util.lead.lead_byproduct = (settings.startup["bzlead-byproduct"] and settings.startup["bzlead-byproduct"].value) and not (settings.startup["bz-no-byproduct"] and settings.startup["bz-no-byproduct"].value)
 settings_util.lead.rebalance_lead = settings_util.modify_lead and settings.startup["kt-rebalance-lead"] and settings.startup["kt-rebalance-lead"].value
 
 --bzsilicon
