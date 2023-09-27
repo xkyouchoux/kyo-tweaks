@@ -162,12 +162,12 @@ if settings_util.gas.change_chemical_plant_ingredients then
 end
 
 if settings_util.tin.rebalance_tin then
-    data_util.recipe_set_energy_required("tin-plate", 36)
-    data_util.replace_or_add_ingredient("tin-plate", "tin-ore", "tin-ore", 20)
-    data_util.replace_or_add_result("tin-plate", "tin-plate", "tin-plate", 15)
-    data_util.replace_or_add_result("enriched-tin", "enriched-tin", "enriched-tin", 9)
+    data_util.recipe_set_energy_required("tin-plate", 16)
     data_util.replace_or_add_result("dirty-water-filtration-tin", "stone", "stone", nil, nil, 1, 1, .3)
-    data_util.replace_or_add_result("dirty-water-filtration-tin", "tin-ore", "tin-ore", nil, nil, 1, 1, .1)
+    data_util.replace_or_add_result("dirty-water-filtration-tin", "tin-ore", "tin-ore", nil, nil, 1, 1, .05)
+    data_util.recipe_set_energy_required("molten-tin", 60)
+    data_util.recipe_set_energy_required("tin-ingot", 25)
+    data_util.recipe_set_energy_required("tin-ingot-to-plate", 2.5)
 end
 
 if settings_util.lead.rebalance_lead then
@@ -179,13 +179,17 @@ if settings_util.lead.rebalance_lead then
 end
 
 if settings_util.titanium.rebalance_titanium then
+    data_util.recipe_set_energy_required("titanium-plate", 16)
+    data_util.replace_or_add_ingredient("titanium-plate", "titanium-ore", "titanium-ore", 15)
     data_util.replace_or_add_result("titanium-plate", "titanium-plate", "titanium-plate", 5)
+    data_util.replace_or_add_result("enriched-titanium", "enriched-titanium", "enriched-titanium", 4)
     data_util.replace_or_add_ingredient("enriched-titanium-plate", "enriched-titanium", "enriched-titanium", 5)
     data_util.replace_or_add_ingredient("titanium-ingot", "molten-titanium", "molten-titanium", 250, true)
     data_util.tech_add_prerequisites("se-pyroflux-smelting", {"enriched-titanium"})
 end
 
 if settings_util.gold.rebalance_gold then
+    data_util.recipe_set_energy_required("gold-ingot", 16)
     local new_tech = table.deepcopy(data.raw.technology["enriched-titanium"])
     new_tech.name = "enriched-gold"
     new_tech.effects = {}
@@ -203,20 +207,13 @@ if settings_util.gold.rebalance_gold then
     data_util.recipe_require_tech("enriched-gold-ingot", "enriched-gold")
     data_util.recipe_require_tech("dirty-water-filtration-gold", "enriched-gold")
     data_util.tech_add_prerequisites("se-pyroflux-smelting", {"enriched-gold"})
+    data_util.recipe_set_energy_required("enriched-gold-ingot", 16)
+    data_util.recipe_set_energy_required("gold-ingot-casting", 12)
 end
 
 if settings_util.gold.rebalance_silver then
-    local gold_modifier = (settings_util.gold.gold_byproduct and settings_util.modify_gold) and 0 or 2
-    if settings_util.lead.lead_byproduct and settings_util.modify_lead then
-        --[[
-            copper-plate -> 1 silver-ore
-            lead-plate -> 3-6 silver-ore
-            gold-ingot -> 2 silver-ore
-
-            enriched-copper -> 1 silver-ore
-            enriched-lead -> 2 silver-ore
-            enriched-gold -> 1 enriched-silver
-        ]]
+    local gold_modifier = settings_util.gold.gold_byproduct and 0 or 2
+    if settings_util.lead.lead_byproduct then
         data_util.replace_or_add_result("copper-plate", "silver-ore", "silver-ore", 1 + gold_modifier)
         data_util.replace_or_add_result("enriched-copper", "silver-ore", "silver-ore", 1 + gold_modifier)
         data_util.replace_or_add_result("lead-plate", "silver-ore", "silver-ore", nil, nil, 3, 6)
@@ -231,17 +228,13 @@ if settings_util.gold.rebalance_silver then
         data_util.replace_or_add_result("enriched-gold", "enriched-gold", "enriched-gold", 6)
         data_util.remove_result("enriched-gold", "enriched-silver")
     end
-    data_util.replace_or_add_ingredient("silver-plate", "silver-ore", "silver-ore", 20)
-    data_util.replace_or_add_result("silver-plate", "silver-plate", "silver-plate", 15)
-    data_util.recipe_set_energy_required("silver-plate", 32)
-    data_util.replace_or_add_result("enriched-silver", "enriched-silver", "enriched-silver", 9)
+    data_util.replace_or_add_ingredient("silver-plate", "silver-ore", "silver-ore", 10)
+    data_util.replace_or_add_result("silver-plate", "silver-plate", "silver-plate", 5)
+    data_util.recipe_set_energy_required("silver-plate", 16)
     data_util.replace_or_add_result("dirty-water-filtration-silver", "silver-ore", "silver-ore", nil, nil, 1, 1, .1)
     data_util.replace_or_add_ingredient("enriched-silver-plate", "enriched-silver", "enriched-silver", 5)
     data_util.replace_or_add_result("enriched-silver-plate", "silver-plate", "silver-plate", 5)
     data_util.recipe_set_energy_required("enriched-silver-plate", 16)
-    data_util.recipe_set_energy_required("molten-silver", 45)
-    data_util.recipe_set_energy_required("silver-ingot", 18.75)
-    data_util.recipe_set_energy_required("silver-ingot-to-plate", 3.75)
 end
 
 if settings_util.fix_matter_recipes then
