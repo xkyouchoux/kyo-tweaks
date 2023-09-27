@@ -189,26 +189,22 @@ if settings_util.titanium.rebalance_titanium then
 end
 
 if settings_util.gold.rebalance_gold then
-    data_util.recipe_set_energy_required("gold-ingot", 16)
-    local new_tech = table.deepcopy(data.raw.technology["enriched-titanium"])
-    new_tech.name = "enriched-gold"
-    new_tech.effects = {}
-    new_tech.prerequisites = {
-        "kr-enriched-ores",
-        "gold-processing"
-    }
-    new_tech.icons[2].icon = data.raw.item["enriched-gold"].icon
-    new_tech.icons[2].icon_size = 128
-    new_tech.icons[2].icon_mipmaps = 0
-    new_tech.icons[2].scale = 1
-    data:extend({new_tech})
-    data_util.tech_add_ingredients("enriched-gold", {"se-rocket-science-pack"})
-    data_util.recipe_require_tech("enriched-gold", "enriched-gold")
-    data_util.recipe_require_tech("enriched-gold-ingot", "enriched-gold")
-    data_util.recipe_require_tech("dirty-water-filtration-gold", "enriched-gold")
-    data_util.tech_add_prerequisites("se-pyroflux-smelting", {"enriched-gold"})
-    data_util.recipe_set_energy_required("enriched-gold-ingot", 16)
-    data_util.recipe_set_energy_required("gold-ingot-casting", 12)
+    data_util.tech_add_prerequisites("gold-processing", "kr-enriched-ores")
+    data_util.recipe_require_tech("crushed-gold", "gold-processing")
+    data_util.recipe_require_tech("enriched-gold", "gold-processing")
+    data_util.recipe_require_tech("enriched-gold-plate", "gold-processing")
+    data_util.recipe_require_tech("dirty-water-filtration-gold", "gold-processing")
+    data_util.recipe_require_tech("gold-ingot-to-plate", "se-pyroflux-smelting")
+    data_util.replace_or_add_ingredient("enriched-gold", "gold-ore", "crushed-gold", 9)
+    data_util.replace_or_add_result("enriched-gold", "enriched-gold", "enriched-gold", 4)
+    data_util.replace_or_add_ingredient("gold-ingot-casting", "molten-gold", "molten-gold", 250)
+    data_util.replace_or_add_ingredient("gold-ingot-casting", nil, "sand", 1)
+    data_util.recipe_set_energy_required("gold-ingot-casting", 50)
+
+    data_util.remove_recipe_from_effects("gold-ingot")
+    data_util.remove_recipe_from_effects("enriched-gold-ingot")
+    data.raw.recipe["gold-ingot"] = null
+    data.raw.recipe["enriched-gold-ingot"] = null
 end
 
 if settings_util.gold.rebalance_silver then
