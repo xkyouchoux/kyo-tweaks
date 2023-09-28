@@ -240,6 +240,7 @@ if settings_util.gold.rebalance_silver then
     data_util.replace_or_add_ingredient("enriched-silver-plate", "enriched-silver", "enriched-silver", 5)
     data_util.replace_or_add_result("enriched-silver-plate", "silver-plate", "silver-plate", 5)
     data_util.recipe_set_energy_required("enriched-silver-plate", 16)
+    data_util.remove_ingredient("chemical-plant", "silver-plate")
 end
 
 if settings_util.fix_matter_recipes then
