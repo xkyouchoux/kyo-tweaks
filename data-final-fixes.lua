@@ -119,6 +119,12 @@ if settings_util.modified_spaceship_floor_amount > 1 then
     data_util.replace_or_add_result("se-spaceship-floor", "se-spaceship-floor", "se-spaceship-floor", settings_util.modified_spaceship_floor_amount)
 end
 
+if mods["Flow_Control_Valves_Only"] then
+    data_util.delete_recipe("pipe-elbow")
+    data_util.delete_recipe("pipe-straight")
+    data_util.delete_recipe("pipe-junction")
+end
+
 if settings_util.foundry.change_smelting_or_kiln_recipes_to_founding_recipes then
     for name, recipe in pairs(data.raw.recipe) do
         if (recipe.category == "kiln" or recipe.category == "smelting") and not name == "stone-brick" then
@@ -168,6 +174,12 @@ if settings_util.tin.rebalance_tin then
     data_util.recipe_set_energy_required("molten-tin", 60)
     data_util.recipe_set_energy_required("tin-ingot", 25)
     data_util.recipe_set_energy_required("tin-ingot-to-plate", 2.5)
+    data.raw.recipe["solder"].category = "smelting"
+    data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "solder", "solder", 4)
+    data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "kr-steel-pipe", "kr-steel-pipe", 10)
+    data_util.remove_ingredient("kr-steel-pipe-to-ground", "steel-plate")
+    data_util.recipe_set_energy_required("se-space-pipe-to-ground", 0.5)
+    data_util.replace_or_add_ingredient("se-space-pipe-to-ground", nil, "solder", 4)
 end
 
 if settings_util.lead.rebalance_lead then
@@ -241,6 +253,8 @@ if settings_util.gold.rebalance_silver then
     data_util.replace_or_add_result("enriched-silver-plate", "silver-plate", "silver-plate", 5)
     data_util.recipe_set_energy_required("enriched-silver-plate", 16)
     data_util.remove_ingredient("chemical-plant", "silver-plate")
+    data.raw.recipe["silver-brazing-alloy"].category = "smelting"
+    data_util.tech_remove_prerequisites("silver-processing", {"automation"})
 end
 
 if settings_util.fix_matter_recipes then
