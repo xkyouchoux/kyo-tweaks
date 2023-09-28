@@ -162,9 +162,6 @@ if settings_util.gas.change_chemical_plant_ingredients then
 end
 
 if settings_util.tin.rebalance_tin then
-    data.raw.recipe["se-core-fragment-tin-ore"].subgroup = "tin"
-    data.raw.recipe["enriched-tin"].subgroup = "tin"
-    data.raw.recipe["dirty-water-filtration-tin"].subgroup = "tin"
     data_util.recipe_set_energy_required("tin-plate", 16)
     data_util.replace_or_add_result("dirty-water-filtration-tin", "stone", "stone", nil, nil, 1, 1, .3)
     data_util.replace_or_add_result("dirty-water-filtration-tin", "tin-ore", "tin-ore", nil, nil, 1, 1, .05)
@@ -174,9 +171,6 @@ if settings_util.tin.rebalance_tin then
 end
 
 if settings_util.lead.rebalance_lead then
-    data.raw.recipe["se-core-fragment-lead-ore"].subgroup = "lead"
-    data.raw.recipe["enriched-lead"].subgroup = "lead"
-    data.raw.recipe["dirty-water-filtration-lead"].subgroup = "lead"
     data_util.recipe_set_energy_required("lead-plate", 48)
     data_util.replace_or_add_ingredient("lead-plate", "lead-ore", "lead-ore", 20)
     data_util.replace_or_add_result("lead-plate", "lead-plate", "lead-plate", 15)
@@ -185,9 +179,6 @@ if settings_util.lead.rebalance_lead then
 end
 
 if settings_util.titanium.rebalance_titanium then
-    data.raw.recipe["se-core-fragment-titanium-ore"].subgroup = "titanium"
-    data.raw.recipe["enriched-titanium"].subgroup = "titanium"
-    data.raw.recipe["dirty-water-filtration-titanium"].subgroup = "titanium"
     data_util.recipe_set_energy_required("titanium-plate", 16)
     data_util.replace_or_add_ingredient("titanium-plate", "titanium-ore", "titanium-ore", 15)
     data_util.replace_or_add_result("titanium-plate", "titanium-plate", "titanium-plate", 5)
@@ -198,8 +189,6 @@ if settings_util.titanium.rebalance_titanium then
 end
 
 if settings_util.gold.rebalance_gold then
-    data.raw.recipe["enriched-gold"].subgroup = "gold"
-    data.raw.recipe["dirty-water-filtration-gold"].subgroup = "gold"
     data_util.delete_recipe("gold-ingot")
     data_util.delete_recipe("enriched-gold-ingot")
     data_util.allow_productivity("crushed-gold")
@@ -229,8 +218,6 @@ if settings_util.gold.rebalance_gold then
 end
 
 if settings_util.gold.rebalance_silver then
-    data.raw.recipe["enriched-silver"].subgroup = "silver"
-    data.raw.recipe["dirty-water-filtration-silver"].subgroup = "silver"
     local gold_modifier = settings_util.gold.gold_byproduct and 0 or 2
     if settings_util.lead.lead_byproduct then
         data_util.replace_or_add_result("copper-plate", "silver-ore", "silver-ore", 1 + gold_modifier)
@@ -253,17 +240,6 @@ if settings_util.gold.rebalance_silver then
     data_util.replace_or_add_ingredient("enriched-silver-plate", "enriched-silver", "enriched-silver", 5)
     data_util.replace_or_add_result("enriched-silver-plate", "silver-plate", "silver-plate", 5)
     data_util.recipe_set_energy_required("enriched-silver-plate", 16)
-end
-
-if settings_util.modify_chlorine then
-    data.raw.recipe["salt"].subgroup = "chemical"
-    data.raw.recipe["salt-filtration"].subgroup = "chemical"
-    data.raw.recipe["ferric-chloride"].subgroup = "chemical"
-    data.raw.recipe["ferric-chloride-hcl"].subgroup = "chemical"
-    data.raw.recipe["bakelite"].subgroup = "chemical"
-    data.raw.recipe["bakelite-hcl"].subgroup = "chemical"
-    data.raw.recipe["phenol"].subgroup = "chemical"
-    data.raw.recipe["phenol-from-oil"].subgroup = "oil"
 end
 
 if settings_util.fix_matter_recipes then
