@@ -46,7 +46,25 @@ if settings_util.produce_double_modules then
     data_util.replace_or_add_result("productivity-module-9", "productivity-module-9", "productivity-module-9", 2)
 end
 
-if settings_util.produce_double_underground_space_pipe then
+if settings_util.rebalance_pipes then
+    if data.raw.item["solder"] then
+        data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "solder", "solder", 4)
+        data_util.remove_ingredient("kr-steel-pipe-to-ground", "steel-plate")
+        data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "kr-steel-pipe", "kr-steel-pipe", 10)
+        data_util.replace_or_add_ingredient("se-space-pipe-to-ground", nil, "solder", 4)
+    end
+    if mods["se-flow-control-bridge"] then
+        data_util.recipe_set_energy_required("space-pipe-elbow", 0.01)
+        data_util.recipe_set_energy_required("space-pipe-straight", 0.01)
+        data_util.recipe_set_energy_required("space-pipe-junction", 0.01)
+    end
+    if mods["Flow_Control_Valves_Only"] then
+        data_util.delete_recipe("pipe-elbow")
+        data_util.delete_recipe("pipe-straight")
+        data_util.delete_recipe("pipe-junction")
+    end
+    data_util.recipe_set_energy_required("se-space-pipe", 0.5)
+    data_util.recipe_set_energy_required("se-space-pipe-to-ground", 0.5)
     data_util.replace_or_add_result("se-space-pipe-to-ground", "se-space-pipe-to-ground", "se-space-pipe-to-ground", 2)
 end
 
@@ -119,12 +137,6 @@ if settings_util.modified_spaceship_floor_amount > 1 then
     data_util.replace_or_add_result("se-spaceship-floor", "se-spaceship-floor", "se-spaceship-floor", settings_util.modified_spaceship_floor_amount)
 end
 
-if mods["Flow_Control_Valves_Only"] then
-    data_util.delete_recipe("pipe-elbow")
-    data_util.delete_recipe("pipe-straight")
-    data_util.delete_recipe("pipe-junction")
-end
-
 if settings_util.foundry.change_smelting_or_kiln_recipes_to_founding_recipes then
     for name, recipe in pairs(data.raw.recipe) do
         if (recipe.category == "kiln" or recipe.category == "smelting") and not name == "stone-brick" then
@@ -174,11 +186,6 @@ if settings_util.tin.rebalance_tin then
     data_util.recipe_set_energy_required("molten-tin", 60)
     data_util.recipe_set_energy_required("tin-ingot", 25)
     data_util.recipe_set_energy_required("tin-ingot-to-plate", 2.5)
-    data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "solder", "solder", 4)
-    data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "kr-steel-pipe", "kr-steel-pipe", 10)
-    data_util.remove_ingredient("kr-steel-pipe-to-ground", "steel-plate")
-    data_util.recipe_set_energy_required("se-space-pipe-to-ground", 0.5)
-    data_util.replace_or_add_ingredient("se-space-pipe-to-ground", nil, "solder", 4)
     if settings_util.gold.rebalance_silver then
         data.raw.recipe["solder"].category = "smelting"
     end
