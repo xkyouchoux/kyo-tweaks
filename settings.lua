@@ -29,7 +29,7 @@ data:extend({
     },
     {
         type = "bool-setting",
-        name = "kt-produce-double-underground-space-pipe",
+        name = "kt-rebalance-pipes",
         setting_type = "startup",
         default_value = false,
         order = "a-e"
