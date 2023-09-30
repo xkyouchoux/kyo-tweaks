@@ -56,7 +56,7 @@ if settings_util.rebalance_pipes then
     if mods["se-flow-control-bridge"] then
         data_util.recipe_set_energy_required("space-pipe-elbow", 0.01)
         data_util.recipe_set_energy_required("space-pipe-straight", 0.01)
-        data_util.recipe_set_energy_required("space-pipe-junction", 0.01)
+        data_util.recipe_set_energy_required("space-pipe-t-junction", 0.01)
     end
     if mods["Flow_Control_Valves_Only"] then
         data_util.delete_recipe("pipe-elbow")
