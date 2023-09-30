@@ -203,15 +203,13 @@ if settings_util.titanium.rebalance_titanium then
 end
 
 if settings_util.gold.rebalance_gold then
-    data_util.delete_recipe("gold-ingot")
-    data_util.delete_recipe("enriched-gold-ingot")
     data_util.allow_productivity("crushed-gold")
     data_util.allow_productivity("enriched-gold-plate")
-    data_util.tech_add_prerequisites("gold-processing", {"kr-enriched-ores"})
     data_util.recipe_require_tech("crushed-gold", "gold-processing")
     data_util.recipe_require_tech("enriched-gold", "gold-processing")
     data_util.recipe_require_tech("enriched-gold-plate", "gold-processing")
     data_util.recipe_require_tech("dirty-water-filtration-gold", "gold-processing")
+    data_util.tech_add_prerequisites("gold-processing", {"kr-enriched-ores"})
     data_util.recipe_require_tech("molten-gold", "se-pyroflux-smelting")
     data_util.recipe_require_tech("gold-ingot-casting", "se-pyroflux-smelting")
     data_util.recipe_require_tech("gold-ingot-to-plate", "se-pyroflux-smelting")
@@ -229,6 +227,8 @@ if settings_util.gold.rebalance_gold then
     data_util.replace_or_add_ingredient("cpu-holmium", "gold-ingot", "gold-plate", 5)
     data_util.replace_or_add_ingredient("mainboard", "gold-ingot", "gold-plate", 10)
     data_util.replace_or_add_ingredient("mainboard-holmium", "gold-ingot", "gold-plate", 10)
+    data_util.delete_recipe("gold-ingot")
+    data_util.delete_recipe("enriched-gold-ingot")
 end
 
 if settings_util.gold.rebalance_silver then
