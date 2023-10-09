@@ -49,8 +49,6 @@ end
 if settings_util.rebalance_pipes then
     if data.raw.item["solder"] then
         data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "solder", "solder", 4)
-        data_util.remove_ingredient("kr-steel-pipe-to-ground", "steel-plate")
-        data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "kr-steel-pipe", "kr-steel-pipe", 10)
         data_util.replace_or_add_ingredient("se-space-pipe-to-ground", nil, "solder", 4)
     end
     if mods["se-flow-control-bridge"] then
@@ -63,6 +61,10 @@ if settings_util.rebalance_pipes then
         data_util.delete_recipe("pipe-straight")
         data_util.delete_recipe("pipe-junction")
     end
+
+    data_util.remove_ingredient("kr-steel-pipe-to-ground", "steel-plate")
+    data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "kr-steel-pipe", "kr-steel-pipe", 10)
+
     data_util.recipe_set_energy_required("se-space-pipe", 0.5)
     data_util.recipe_set_energy_required("se-space-pipe-to-ground", 0.5)
     data_util.replace_or_add_result("se-space-pipe-to-ground", "se-space-pipe-to-ground", "se-space-pipe-to-ground", 2)
