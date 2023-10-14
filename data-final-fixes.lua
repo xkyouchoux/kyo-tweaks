@@ -65,8 +65,8 @@ if settings_util.rebalance_pipes then
     data_util.remove_ingredient("kr-steel-pipe-to-ground", "steel-plate")
     data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "kr-steel-pipe", "kr-steel-pipe", 10)
 
-    data_util.recipe_set_energy_required("se-space-pipe", 0.5)
-    data_util.recipe_set_energy_required("se-space-pipe-to-ground", 0.5)
+    data_util.recipe_set_energy_required("se-space-pipe", 2.5)
+    data_util.recipe_set_energy_required("se-space-pipe-to-ground", 2.5)
     data_util.replace_or_add_result("se-space-pipe-to-ground", "se-space-pipe-to-ground", "se-space-pipe-to-ground", 2)
 end
 
@@ -188,9 +188,6 @@ if settings_util.tin.rebalance_tin then
     data_util.recipe_set_energy_required("molten-tin", 60)
     data_util.recipe_set_energy_required("tin-ingot", 25)
     data_util.recipe_set_energy_required("tin-ingot-to-plate", 2.5)
-    if settings_util.gold.rebalance_silver then
-        data.raw.recipe["solder"].category = "smelting"
-    end
 end
 
 if settings_util.lead.rebalance_lead then
@@ -264,7 +261,6 @@ if settings_util.gold.rebalance_silver then
     data_util.replace_or_add_result("enriched-silver-plate", "silver-plate", "silver-plate", 5)
     data_util.recipe_set_energy_required("enriched-silver-plate", 16)
     data_util.remove_ingredient("chemical-plant", "silver-plate")
-    data.raw.recipe["silver-brazing-alloy"].category = "smelting"
     data_util.tech_remove_prerequisites("silver-processing", {"automation"})
 end
 
