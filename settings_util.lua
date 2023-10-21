@@ -24,6 +24,8 @@ settings_util.modified_spaceship_floor_amount = settings.startup["kt-modified-sp
 
 settings_util.add_more_landfill_recipes = settings.startup["kt-add-more-landfill-recipes"].value
 
+settings_util.safefill_obey_restrictions = settings.startup["kt-safefill-obey-space-exploration"] and settings.startup["kt-safefill-obey-space-exploration"].value
+
 --modify
 settings_util.modify_aluminum = settings.startup["kt-modify-aluminum"] and settings.startup["kt-modify-aluminum"].value
 settings_util.modify_carbon = settings.startup["kt-modify-carbon"] and settings.startup["kt-modify-carbon"].value

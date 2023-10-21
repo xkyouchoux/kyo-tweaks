@@ -149,6 +149,26 @@ if settings_util.foundry.change_smelting_or_kiln_recipes_to_founding_recipes the
     end
 end
 
+if settings_util.safefill_obey_restrictions then
+    local safefills = {
+        "safefill-shallow",
+        "safefill-medium",
+        "safefill-deep",
+        "safefill-mud",
+        "safefill-green",
+        "safefill-deepgreen"
+    }
+
+    for _, value in pairs(safefills) do
+        if data.raw.item[value] then
+            data.raw.item[value].place_as_tile.result = value.."-water"
+            data.raw.tile[value].name = value.."-water"
+            data.raw.tile[value.."-water"] = data.raw.tile[value]
+            data.raw.tile[value] = null
+        end
+    end
+end
+
 if settings_util.foundry.move_electric_foundry then
     data_util.replace_or_add_ingredient("electric-foundry", "processing-unit", "advanced-circuit", 5)
     data_util.recipe_require_tech("electric-foundry", "advanced-material-processing-2")

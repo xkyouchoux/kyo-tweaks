@@ -104,6 +104,18 @@ data:extend({
     },
 })
 
+if mods["safefill"] then
+    data:extend({
+        {
+            type = "bool-setting",
+            name = "kt-safefill-obey-space-exploration",
+            setting_type = "startup",
+            default_value = false,
+            order = "a-z"
+        }
+    })
+end
+
 if mods["bzaluminum"] then
     data:extend({
         {
