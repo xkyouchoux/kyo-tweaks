@@ -50,6 +50,11 @@ if settings_util.rebalance_pipes then
     if data.raw.item["solder"] then
         data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "solder", "solder", 4)
         data_util.replace_or_add_ingredient("se-space-pipe-to-ground", nil, "solder", 4)
+        
+        if not mods["bzgold"] then
+            data_util.replace_or_add_ingredient("processing-unit", nil, "solder", 1)
+            data_util.replace_or_add_ingredient("se-processing-unit-holmium", nil, "solder", 1)
+        end
     end
     if mods["se-flow-control-bridge"] then
         data_util.recipe_set_energy_required("space-pipe-elbow", 0.01)
@@ -208,6 +213,12 @@ if settings_util.tin.rebalance_tin then
     data_util.recipe_set_energy_required("molten-tin", 60)
     data_util.recipe_set_energy_required("tin-ingot", 25)
     data_util.recipe_set_energy_required("tin-ingot-to-plate", 2.5)
+
+    if data.raw.item["solder"] and not mods["bzgold"] then
+        data_util.replace_or_add_ingredient("processing-unit", nil, "solder", 1)
+        data_util.replace_or_add_ingredient("se-processing-unit-holmium", nil, "solder", 1)
+    end
+
 end
 
 if settings_util.lead.rebalance_lead then
