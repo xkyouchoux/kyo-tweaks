@@ -62,6 +62,8 @@ if settings_util.rebalance_pipes then
         data_util.delete_recipe("pipe-junction")
     end
 
+    data_util.remove_ingredient("pipe-to-ground", "iron-plate")
+
     data_util.remove_ingredient("kr-steel-pipe-to-ground", "steel-plate")
     data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "kr-steel-pipe", "kr-steel-pipe", 10)
 
@@ -184,18 +186,23 @@ if settings_util.update_circuit_recipes then
         if data.raw.item["tinned-cable"] then
             data_util.replace_or_add_ingredient("cybersyn-combinator", "copper-cable", "tinned-cable", 5)
         end
-        data_util.replace_or_add_ingredient("cybersyn-combinator", nil, "silicon", 1)
+        if mods["bzsilicon"] then
+            data_util.replace_or_add_ingredient("cybersyn-combinator", nil, "silicon", 1)
+        end
     end
     if data.raw.item["pushbutton"] then
+        data_util.remove_ingredient("pushbutton", "advanced-circuit")
         if data.raw.item["optical-fiber"] then
-            data_util.replace_or_add_ingredient("pushbutton", "constant-combinator", "optical-fiber", 1)
+            data_util.replace_or_add_ingredient("pushbutton", nil, "optical-fiber", 1)
         end
         if data.raw.item["tinned-cable"] then
-            data_util.replace_or_add_ingredient("pushbutton", nil, "tinned-cable", 5)
+            data_util.replace_or_add_ingredient("pushbutton", "constant-combinator", "tinned-cable", 5)
+        else
+            data_util.replace_or_add_ingredient("pushbutton", "constant-combinator", "copper-cable", 5)
         end
         data_util.replace_or_add_ingredient("pushbutton", "electronic-circuit", "electronic-circuit", 2)
         if data.raw.item["bakelite"] then
-            data_util.replace_or_add_ingredient("pushbutton", "advanced-circuit", "bakelite", 5)
+            data_util.replace_or_add_ingredient("pushbutton", nil, "bakelite", 2)
         end
     end
 end
@@ -224,11 +231,12 @@ if settings_util.gas.change_chemical_plant_ingredients then
             data_util.remove_ingredient("basic-chemical-plant", "tin-plate")
         end
         data_util.replace_or_add_ingredient("basic-chemical-plant", "sand", "stone-brick", 4)
-        data_util.replace_or_add_ingredient("basic-chemical-plant", "iron-plate", "automation-core", 3)
+        data_util.replace_or_add_ingredient("basic-chemical-plant", "iron-plate", "motor", 3)
         data_util.remove_ingredient("gas-extractor", "iron-plate")
-        data_util.replace_or_add_ingredient("gas-extractor", "sand", "automation-core", 2)
+        data_util.replace_or_add_ingredient("gas-extractor", "sand", "electric-motor", 2)
         data_util.tech_remove_prerequisites("gas-extraction", {"kr-stone-processing"})
-        data_util.tech_add_ingredients_with_prerequisites("gas-extraction", {"automation-science-pack"})
+        data_util.tech_add_ingredients("gas-extraction", {"automation-science-pack"})
+        data_util.tech_add_prerequisites("gas-extraction", {"kr-basic-fluid-handling"})
     end
 end
 
