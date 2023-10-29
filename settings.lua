@@ -101,7 +101,7 @@ data:extend({
         setting_type = "startup",
         default_value = false,
         order = "a-m"
-    },
+    }
 })
 
 if mods["safefill"] then
@@ -111,7 +111,31 @@ if mods["safefill"] then
             name = "kt-safefill-obey-space-exploration",
             setting_type = "startup",
             default_value = false,
-            order = "a-z"
+            order = "a-n"
+        }
+    })
+end
+
+if not mods["k2-aai-walls-resistance"] then
+    data:extend({
+        {
+            type = "bool-setting",
+            name = "kt-aai-k2-wall-patch",
+            setting_type = "startup",
+            default_value = false,
+            order = "a-o"
+        }
+    })
+end
+
+if (mods["cybersyn"] or mods["pushbutton"]) and (mods["bzsilicon"] or mods["bztin"] or mods["bzgas"]) then
+    data:extend({
+        {
+            type = "bool-setting",
+            name = "kt-update-circuit-recipes",
+            setting_type = "startup",
+            default_value = false,
+            order = "a-p"
         }
     })
 end

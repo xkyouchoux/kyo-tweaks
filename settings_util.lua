@@ -26,6 +26,10 @@ settings_util.add_more_landfill_recipes = settings.startup["kt-add-more-landfill
 
 settings_util.safefill_obey_restrictions = settings.startup["kt-safefill-obey-space-exploration"] and settings.startup["kt-safefill-obey-space-exploration"].value
 
+settings_util.aai_k2_wall_patch = settings.startup["kt-aai-k2-wall-patch"] and settings.startup["kt-aai-k2-wall-patch"].value
+
+settings_util.update_circuit_recipes = settings.startup["kt-update-circuit-recipes"] and settings.startup["kt-update-circuit-recipes"].value
+
 --modify
 settings_util.modify_aluminum = settings.startup["kt-modify-aluminum"] and settings.startup["kt-modify-aluminum"].value
 settings_util.modify_carbon = settings.startup["kt-modify-carbon"] and settings.startup["kt-modify-carbon"].value

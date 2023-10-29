@@ -50,11 +50,6 @@ if settings_util.rebalance_pipes then
     if data.raw.item["solder"] then
         data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "solder", "solder", 4)
         data_util.replace_or_add_ingredient("se-space-pipe-to-ground", nil, "solder", 4)
-        
-        if not mods["bzgold"] then
-            data_util.replace_or_add_ingredient("processing-unit", nil, "solder", 1)
-            data_util.replace_or_add_ingredient("se-processing-unit-holmium", nil, "solder", 1)
-        end
     end
     if mods["se-flow-control-bridge"] then
         data_util.recipe_set_energy_required("space-pipe-elbow", 0.01)
@@ -170,6 +165,37 @@ if settings_util.safefill_obey_restrictions then
             data.raw.tile[value].name = value.."-water"
             data.raw.tile[value.."-water"] = data.raw.tile[value]
             data.raw.tile[value] = null
+        end
+    end
+end
+
+if settings_util.aai_k2_wall_patch then
+    table.insert(data.raw.wall["concrete-wall"].resistances, {type = "kr-explosion", percent = 100})
+    table.insert(data.raw.wall["concrete-wall"].resistances, {type = "radioactive", percent = 100})
+    table.insert(data.raw.wall["steel-wall"].resistances, {type = "kr-explosion", percent = 100})
+    table.insert(data.raw.wall["steel-wall"].resistances, {type = "radioactive", percent = 100})
+end
+
+if settings_util.update_circuit_recipes then
+    if data.raw.item["cybersyn-combinator"] then
+        if data.raw.item["optical-fiber"] then
+            data_util.replace_or_add_ingredient("cybersyn-combinator", nil, "optical-fiber", 1)
+        end
+        if data.raw.item["tinned-cable"] then
+            data_util.replace_or_add_ingredient("cybersyn-combinator", "copper-cable", "tinned-cable", 5)
+        end
+        data_util.replace_or_add_ingredient("cybersyn-combinator", nil, "silicon", 1)
+    end
+    if data.raw.item["pushbutton"] then
+        if data.raw.item["optical-fiber"] then
+            data_util.replace_or_add_ingredient("pushbutton", "constant-combinator", "optical-fiber", 1)
+        end
+        if data.raw.item["tinned-cable"] then
+            data_util.replace_or_add_ingredient("pushbutton", nil, "tinned-cable", 5)
+        end
+        data_util.replace_or_add_ingredient("pushbutton", "electronic-circuit", "electronic-circuit", 2)
+        if data.raw.item["bakelite"] then
+            data_util.replace_or_add_ingredient("pushbutton", "advanced-circuit", "bakelite", 5)
         end
     end
 end
