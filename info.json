@@ -10,19 +10,10 @@
   "dependencies": [
     "space-exploration", 
     "Krastorio2",
-    "? bzaluminum",
-    "? bzcarbon",
-    "? bzchlorine",
-    "? bz-dsr-bridge",
-    "? bzfoundry",
     "? bzgas",
-    "? bzgold",
     "? bzlead",
     "? bzsilicon",
     "? bztin",
-    "? bztitanium",
-    "? bztungsten",
-    "? bzzirconium",
-    "? bzvery"
+    "? bztitanium"
   ]
 }
