@@ -10,4 +10,16 @@ settings_util.modified_space_scaffolding_amount = settings.startup["kt-modified-
 settings_util.modified_space_plating_amount = settings.startup["kt-modified-space-plating-amount"].value
 settings_util.modified_spaceship_floor_amount = settings.startup["kt-modified-spaceship-floor-amount"].value
 
+settings_util.bzaluminum = mods["bzaluminum"]
+settings_util.bzcarbon = mods["bzcarbon"]
+settings_util.bzchlorine = mods["bzchlorine"]
+settings_util.bzgas = mods["bzgas"]
+settings_util.bzgold = mods["bzgold"]
+settings_util.bzlead = mods["bzlead"]
+settings_util.bzsilicon = mods["bzsilicon"]
+settings_util.bztin = mods["bztin"]
+settings_util.bztitanium = mods["bztitanium"]
+settings_util.bztungsten = mods["bztungsten"]
+settings_util.bzzirconium = mods["bzzirconium"]
+
 return settings_util

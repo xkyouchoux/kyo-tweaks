@@ -63,16 +63,16 @@ for name, value in pairs({
     ["landfill-raw-rare-metals"] = true, 
     ["landfill-raw-imersite"] = true,
     
-    ["landfill-silica"] = mods["bzaluminum"], 
-    ["landfill-lead-ore"] = mods["bzlead"], 
-    ["landfill-titanium-ore"] = mods["bztitanium"], 
-    ["landfill-tungsten-ore"] = mods["bztungsten"], 
-    ["landfill-zircon"] = mods["bzzirconium"], 
-    ["landfill-flake-graphite"] = mods["bzcarbon"], 
-    ["landfill-aluminum-ore"] = mods["bzaluminum"], 
-    ["landfill-tin-ore"] = mods["bztin"],
-    ["landfill-gold-ore"] = mods["bzgold"],
-    ["landfill-silver-ore"] = mods["bzgold"]
+    ["landfill-silica"] = settings_util.bzaluminum, 
+    ["landfill-lead-ore"] = settings_util.bzlead, 
+    ["landfill-titanium-ore"] = settings_util.bztitanium, 
+    ["landfill-tungsten-ore"] = settings_util.bztungsten, 
+    ["landfill-zircon"] = settings_util.bzzirconium, 
+    ["landfill-flake-graphite"] = settings_util.bzcarbon, 
+    ["landfill-aluminum-ore"] = settings_util.bzaluminum, 
+    ["landfill-tin-ore"] = settings_util.bztin,
+    ["landfill-gold-ore"] = settings_util.bzgold,
+    ["landfill-silver-ore"] = settings_util.bzgold
 }) do
     if value then data_util.modify_landfill_recipe(name) end
 end
@@ -168,7 +168,7 @@ if data.raw.item["cybersyn-combinator"] then
     if data.raw.item["tinned-cable"] then
         data_util.replace_or_add_ingredient("cybersyn-combinator", "copper-cable", "tinned-cable", 5)
     end
-    if mods["bzsilicon"] then
+    if settings_util.bzsilicon then
         data_util.replace_or_add_ingredient("cybersyn-combinator", nil, "silicon", 1)
     end
 end
@@ -203,12 +203,12 @@ if data.raw.recipe["gas-extractor"] then
     data_util.tech_remove_prerequisites("gas-extraction", {"kr-stone-processing"})
     data_util.tech_add_ingredients("gas-extraction", {"automation-science-pack"})
     data_util.tech_add_prerequisites("gas-extraction", {"kr-basic-fluid-handling"})
-    if mods["bzaluminum"] then
+    if settings_util.bzaluminum then
         data_util.tech_add_prerequisites("gas-extraction", {"automation-science-pack"})
     end
 end
 
-if mods["bzgold"] then
+if settings_util.bzgold then
     local gold_modifier = settings.startup["bzgold-byproduct"].value and 0 or 2
     if settings.startup["bzlead-byproduct"] and settings.startup["bzlead-byproduct"].value then
         data_util.replace_or_add_result("copper-plate", "silver-ore", "silver-ore", 1 + gold_modifier)
@@ -232,12 +232,12 @@ if mods["bzgold"] then
     data_util.replace_or_add_result("enriched-silver-plate", "silver-plate", "silver-plate", 5)
     data_util.recipe_set_energy_required("enriched-silver-plate", 16)
     data_util.remove_ingredient("chemical-plant", "silver-plate")
-    if not mods["bzaluminum"] then
+    if not settings_util.bzaluminum then
         data_util.tech_remove_prerequisites("silver-processing", {"automation"})
     end
 end
 
-if mods["bztin"] then
+if settings_util.bztin then
     data_util.recipe_set_energy_required("tin-plate", 48)
     data_util.replace_or_add_ingredient("tin-plate", "tin-ore", "tin-ore", 20)
     data_util.replace_or_add_result("tin-plate", "tin-plate", "tin-plate", 15)
@@ -251,13 +251,13 @@ if mods["bztin"] then
     data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "solder", "solder", 4)
     data_util.replace_or_add_ingredient("se-space-pipe-to-ground", nil, "solder", 4)
 
-    if not mods["bzgold"] then
+    if not settings_util.bzgold then
         data_util.replace_or_add_ingredient("processing-unit", nil, "solder", 1)
         data_util.replace_or_add_ingredient("se-processing-unit-holmium", nil, "solder", 1)
     end
 end
 
-if mods["bzlead"] then
+if settings_util.bzlead then
     data_util.recipe_set_energy_required("lead-plate", 48)
     data_util.replace_or_add_ingredient("lead-plate", "lead-ore", "lead-ore", 20)
     data_util.replace_or_add_result("lead-plate", "lead-plate", "lead-plate", 15)
@@ -265,7 +265,7 @@ if mods["bzlead"] then
     data_util.replace_or_add_result("dirty-water-filtration-lead", "lead-ore", "lead-ore", nil, nil, 1, 1, .1)
 end
 
-if mods["bztitanium"] then
+if settings_util.bztitanium then
     data_util.recipe_set_energy_required("titanium-plate", 16)
     data_util.replace_or_add_ingredient("titanium-plate", "titanium-ore", "titanium-ore", 15)
     data_util.replace_or_add_result("titanium-plate", "titanium-plate", "titanium-plate", 5)
@@ -280,28 +280,28 @@ local adv_stone = data_util.split_matter_tech("kr-matter-stone-processing")
 if adv_stone then
     data_util.recipe_require_tech("matter-to-glass", adv_stone)
     data_util.recipe_require_tech("matter-to-silicon", adv_stone)
-    if mods["bzsilicon"] then
+    if settings_util.bzsilicon then
         data_util.recipe_require_tech("matter-to-silica", adv_stone)
     end
 end
 
 for name, value in pairs({
-    ["aluminum"] = mods["bzaluminum"],
-    ["carbon"] = mods["bzcarbon"],
-    ["gas"] = mods["bzgas"],
-    ["gold"] = mods["bzgold"],
-    ["salt"] = mods["bzchlorine"],
-    ["silver"] = mods["bzgold"],
-    ["lead"] = mods["bzlead"],
-    ["tin"] = mods["bztin"],
-    ["titanium"] = mods["bztitanium"],
-    ["tungsten"] = mods["bztungsten"],
-    ["zirconium"] = mods["bzzirconium"]
+    ["aluminum"] = settings_util.bzaluminum,
+    ["carbon"] = settings_util.bzcarbon,
+    ["gas"] = settings_util.bzgas,
+    ["gold"] = settings_util.bzgold,
+    ["salt"] = settings_util.bzchlorine,
+    ["silver"] = settings_util.bzgold,
+    ["lead"] = settings_util.bzlead,
+    ["tin"] = settings_util.bztin,
+    ["titanium"] = settings_util.bztitanium,
+    ["tungsten"] = settings_util.bztungsten,
+    ["zirconium"] = settings_util.bzzirconium
 }) do
     if value then data_util.update_matter_tech(name.."-matter-processing") end
 end
 
-if mods["bzaluminum"] then
+if settings_util.bzaluminum then
     local adv_aluminum = data_util.split_matter_tech("aluminum-matter-processing")
     if adv_aluminum then
         data_util.recipe_require_tech("matter-to-alumina", adv_aluminum)
@@ -313,7 +313,7 @@ if mods["bzaluminum"] then
     end
 end
 
-if mods["bzcarbon"] then
+if settings_util.bzcarbon then
     local adv_carbon = data_util.split_matter_tech("carbon-matter-processing")
     if adv_carbon then
         data_util.recipe_require_tech("matter-to-graphite", adv_carbon)
@@ -325,26 +325,26 @@ if mods["bzcarbon"] then
     end
 end
 
-if mods["bzchlorine"] and data.raw.recipe["matter-to-salt"] then
+if settings_util.bzchlorine then
     data_util.replace_stabilizer("matter-to-salt")
 end
 
-if mods["bzgas"] and data.raw.recipe["matter-to-gas"] then
+if settings_util.bzgas then
     data_util.add_basic_stabilizer("matter-to-gas")
     data_util.set_matter_ingredient("matter-to-gas", 10)
 end
 
-if mods["bzgold"] and data.raw.recipe["matter-to-silver-ore"] then
+if settings_util.bzgold and data.raw.recipe["matter-to-silver-ore"] then
     data_util.replace_stabilizer("matter-to-silver-ore")
     data_util.set_matter_ingredient("matter-to-silver-ore", 16)
 end
 
-if mods["bzgold"] and data.raw.technology["gold-matter-processing"] then
+if settings_util.bzgold and data.raw.technology["gold-matter-processing"] then
     data_util.tech_add_prerequisites("gold-matter-processing", {"se-kr-advanced-matter-processing"})
     data_util.set_matter_ingredient("matter-to-gold-ore", 60)
 end
 
-if mods["bzlead"] then
+if settings_util.bzlead then
     local adv_lead = data_util.split_matter_tech("lead-matter-processing")
     if adv_lead then
         data_util.recipe_require_tech("matter-to-lead-plate", adv_lead)
@@ -354,7 +354,7 @@ if mods["bzlead"] then
     end
 end
 
-if mods["bztin"] then
+if settings_util.bztin then
     local adv_tin = data_util.split_matter_tech("tin-matter-processing")
     if adv_tin then
         data_util.recipe_require_tech("matter-to-tin-plate", adv_tin)
@@ -364,7 +364,7 @@ if mods["bztin"] then
     end
 end
 
-if mods["bztitanium"] then
+if settings_util.bztitanium then
     local adv_titanium = data_util.split_matter_tech("titanium-matter-processing")
     if adv_titanium then
         data_util.recipe_require_tech("matter-to-titanium-plate", adv_titanium)
@@ -374,7 +374,7 @@ if mods["bztitanium"] then
     end
 end
 
-if mods["bztungsten"] then
+if settings_util.bztungsten then
     local adv_tungsten = data_util.split_matter_tech("tungsten-matter-processing")
     if adv_tungsten then
         data_util.recipe_require_tech("matter-to-tungsten-plate", adv_tungsten)
@@ -384,7 +384,7 @@ if mods["bztungsten"] then
     end
 end
 
-if mods["bzzirconium"] then
+if settings_util.bzzirconium then
     local adv_zirconium = data_util.split_matter_tech("zirconium-matter-processing")
     if adv_zirconium then
         data_util.recipe_require_tech("matter-to-zirconia", adv_zirconium)
