@@ -202,10 +202,9 @@ if data.raw.recipe["gas-extractor"] then
     data_util.replace_or_add_ingredient("gas-extractor", "sand", "electric-motor", 2)
     data_util.tech_remove_prerequisites("gas-extraction", {"kr-stone-processing"})
     data_util.tech_add_ingredients("gas-extraction", {"automation-science-pack"})
+    data_util.tech_add_prerequisites("gas-extraction", {"kr-basic-fluid-handling"})
     if mods["bzaluminum"] then
         data_util.tech_add_prerequisites("gas-extraction", {"automation-science-pack"})
-    else
-        data_util.tech_add_prerequisites("gas-extraction", {"kr-basic-fluid-handling"})
     end
 end
 
