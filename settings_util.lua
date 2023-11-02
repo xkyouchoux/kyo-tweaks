@@ -22,6 +22,6 @@ settings_util.bztitanium = mods["bztitanium"]
 settings_util.bztungsten = mods["bztungsten"]
 settings_util.bzzirconium = mods["bzzirconium"]
 
-settings_util.rebalance_smelting = false
+settings_util.rebalance_smelting = true
 
 return settings_util

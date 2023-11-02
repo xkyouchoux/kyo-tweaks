@@ -210,7 +210,6 @@ end
 
 if settings_util.bzaluminum then
     if settings_util.rebalance_smelting then
-        data_util.replace_or_add_result("alumina", "alumina", "alumina", 5)
     end
 end
 
@@ -230,14 +229,29 @@ if settings_util.bzgold then
     else
         data_util.remove_result("enriched-gold", "enriched-silver")
     end
+    data_util.recipe_require_tech("enriched-gold", "gold-processing")
+    data_util.recipe_require_tech("enriched-gold-ingot", "gold-processing")
+    data_util.recipe_require_tech("dirty-water-filtration-gold", "gold-processing")
     if settings_util.rebalance_smelting then
-        data_util.replace_or_add_ingredient("silver-plate", "silver-ore", "silver-ore", 10)
-        data_util.replace_or_add_result("silver-plate", "silver-plate", "silver-plate", 5)
-        data_util.recipe_set_energy_required("silver-plate", 16)
-        data_util.replace_or_add_result("dirty-water-filtration-silver", "silver-ore", "silver-ore", nil, nil, 1, 1, .1)
-        data_util.replace_or_add_ingredient("enriched-silver-plate", "enriched-silver", "enriched-silver", 5)
-        data_util.replace_or_add_result("enriched-silver-plate", "silver-plate", "silver-plate", 5)
-        data_util.recipe_set_energy_required("enriched-silver-plate", 16)
+        if data.raw.recipe["rare-metals-1"] then
+            data_util.delete_recipe("rare-metals-1")
+            if data.raw.item["palladium-powder"] then
+                data_util.remove_result("rare-metals-2", "palladium-powder")
+                data_util.replace_or_add_result("enriched-rare-metals", nil, "palladium-powder", 1)
+                data_util.tech_add_prerequisites("palladium-processing", {"kr-enriched-ores"})
+            end
+            if data.raw.item["platinum-powder"] then
+                data_util.remove_result("rare-metals-2", "platinum-powder")
+                data_util.replace_or_add_result("enriched-rare-metals", nil, "platinum-powder", 1)
+                data_util.tech_add_prerequisites("platinum-processing", {"kr-enriched-ores"})
+            end
+            data_util.recipe_set_energy_required("rare-metals", 16)
+            data_util.replace_or_add_ingredient("rare-metals", "raw-rare-metals", "raw-rare-metals", 10)
+            data_util.replace_or_add_result("rare-metals", "rare-metals", "rare-metals", 5)
+            data_util.recipe_set_energy_required("rare-metals-2", 16)
+            data_util.replace_or_add_ingredient("rare-metals-2", "enriched-rare-metals", "enriched-rare-metals", 5)
+            data_util.replace_or_add_result("rare-metals-2", "rare-metals", "rare-metals", 5)
+        end
     end
     data_util.remove_ingredient("chemical-plant", "silver-plate")
     if not settings_util.bzaluminum then
@@ -247,15 +261,6 @@ end
 
 if settings_util.bztin then
     if settings_util.rebalance_smelting then
-        data_util.recipe_set_energy_required("tin-plate", 48)
-        data_util.replace_or_add_ingredient("tin-plate", "tin-ore", "tin-ore", 20)
-        data_util.replace_or_add_result("tin-plate", "tin-plate", "tin-plate", 15)
-        data_util.replace_or_add_result("enriched-tin", "enriched-tin", "enriched-tin", 9)
-        data_util.replace_or_add_result("dirty-water-filtration-tin", "stone", "stone", nil, nil, 1, 1, .3)
-        data_util.replace_or_add_result("dirty-water-filtration-tin", "tin-ore", "tin-ore", nil, nil, 1, 1, .05)
-        data_util.recipe_set_energy_required("molten-tin", 60)
-        data_util.recipe_set_energy_required("tin-ingot", 25)
-        data_util.recipe_set_energy_required("tin-ingot-to-plate", 2.5)
     end
     
     data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "solder", "solder", 4)
@@ -269,22 +274,11 @@ end
 
 if settings_util.bzlead then
     if settings_util.rebalance_smelting then
-        data_util.recipe_set_energy_required("lead-plate", 48)
-        data_util.replace_or_add_ingredient("lead-plate", "lead-ore", "lead-ore", 20)
-        data_util.replace_or_add_result("lead-plate", "lead-plate", "lead-plate", 15)
-        data_util.replace_or_add_result("enriched-lead", "enriched-lead", "enriched-lead", 9)
-        data_util.replace_or_add_result("dirty-water-filtration-lead", "lead-ore", "lead-ore", nil, nil, 1, 1, .1)
     end
 end
 
 if settings_util.bztitanium then
     if settings_util.rebalance_smelting then
-        data_util.recipe_set_energy_required("titanium-plate", 16)
-        data_util.replace_or_add_ingredient("titanium-plate", "titanium-ore", "titanium-ore", 15)
-        data_util.replace_or_add_result("titanium-plate", "titanium-plate", "titanium-plate", 5)
-        data_util.replace_or_add_result("enriched-titanium", "enriched-titanium", "enriched-titanium", 4)
-        data_util.replace_or_add_ingredient("enriched-titanium-plate", "enriched-titanium", "enriched-titanium", 5)
-        data_util.replace_or_add_ingredient("titanium-ingot", "molten-titanium", "molten-titanium", 250, true)
     end
     data_util.tech_add_prerequisites("se-pyroflux-smelting", {"enriched-titanium"})
 end
