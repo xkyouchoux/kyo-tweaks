@@ -4,9 +4,18 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "fpackage",
+            "label": "fpackage-xkyou",
             "type": "shell",
             "command": "../fpackager \".\" \"C:/Users/xkyou/AppData/Roaming/Factorio/mods\"",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "fpackage-dellclient",
+            "type": "shell",
+            "command": "../fpackager \".\" \"C:/Users/dellclient/AppData/Roaming/Factorio/mods\"",
             "group": {
                 "kind": "build",
                 "isDefault": true
