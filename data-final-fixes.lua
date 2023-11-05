@@ -208,11 +208,6 @@ if data.raw.recipe["gas-extractor"] then
     end
 end
 
-if settings_util.bzaluminum then
-    if settings_util.rebalance_smelting then
-    end
-end
-
 if settings_util.bzgold then
     local gold_modifier = settings.startup["bzgold-byproduct"].value and 0 or 2
     if settings.startup["bzlead-byproduct"] and settings.startup["bzlead-byproduct"].value then
@@ -260,8 +255,6 @@ if settings_util.bzgold then
 end
 
 if settings_util.bztin then
-    if settings_util.rebalance_smelting then
-    end
     
     data_util.replace_or_add_ingredient("kr-steel-pipe-to-ground", "solder", "solder", 4)
     data_util.replace_or_add_ingredient("se-space-pipe-to-ground", nil, "solder", 4)
@@ -272,14 +265,7 @@ if settings_util.bztin then
     end
 end
 
-if settings_util.bzlead then
-    if settings_util.rebalance_smelting then
-    end
-end
-
 if settings_util.bztitanium then
-    if settings_util.rebalance_smelting then
-    end
     data_util.tech_add_prerequisites("se-pyroflux-smelting", {"enriched-titanium"})
 end
 
