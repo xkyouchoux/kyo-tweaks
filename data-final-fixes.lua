@@ -260,10 +260,9 @@ end
 
 if settings_util.bztitanium then
     if settings_util.rebalance_smelting then
-        data_util.recipe_set_energy_required("titanium-plate", 32)
         data_util.replace_or_add_ingredient("titanium-plate", "titanium-ore", "titanium-ore", 20)
         data_util.replace_or_add_result("titanium-plate", "titanium-plate", "titanium-plate", 5)
-        data_util.recipe_set_energy_required("enriched-titanium-plate", 32)
+        data_util.recipe_set_energy_required("titanium-ingot", 50)
     end
 end
 
