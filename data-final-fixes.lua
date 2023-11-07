@@ -247,22 +247,10 @@ if settings_util.bzgold then
             data_util.replace_or_add_ingredient("rare-metals-2", "enriched-rare-metals", "enriched-rare-metals", 5)
             data_util.replace_or_add_result("rare-metals-2", "rare-metals", "rare-metals", 5)
         end
-        data_util.replace_or_add_result("enriched-gold", "enriched-gold", "enriched-gold", 6)
-        if data.raw.recipe["enriched-silver"] then
-            data_util.replace_or_add_result("enriched-silver", "enriched-silver", "enriched-silver", 6)
-        end
     end
     data_util.remove_ingredient("chemical-plant", "silver-plate")
     if not settings_util.bzaluminum then
         data_util.tech_remove_prerequisites("silver-processing", {"automation"})
-    end
-end
-
-if settings_util.bztitanium then
-    if settings_util.rebalance_smelting then
-        data_util.replace_or_add_ingredient("titanium-plate", "titanium-ore", "titanium-ore", 20)
-        data_util.replace_or_add_result("titanium-plate", "titanium-plate", "titanium-plate", 5)
-        data_util.recipe_set_energy_required("titanium-ingot", 50)
     end
 end
 
